@@ -24,8 +24,13 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSMotionUsageDescription
+
+</key>
+	<string>To record activity for prediction</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
+		<string></string>
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
