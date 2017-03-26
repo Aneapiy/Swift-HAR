@@ -96,6 +96,7 @@
 				TargetAttributes = {
 					79B02DF01E86C9A300D8B62F = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 39WJ446KMK;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -260,6 +261,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 39WJ446KMK;
 				INFOPLIST_FILE = "Swift-HAR/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bdac.Swift-HAR";
@@ -272,6 +274,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 39WJ446KMK;
 				INFOPLIST_FILE = "Swift-HAR/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bdac.Swift-HAR";
@@ -299,6 +302,7 @@
 				79B02E051E86C9A300D8B62F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

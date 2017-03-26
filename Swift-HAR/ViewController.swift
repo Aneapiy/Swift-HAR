@@ -15,6 +15,10 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var accelXText: UITextField!
     
+    @IBOutlet weak var accelYText: UITextField!
+  
+    @IBOutlet weak var accelZText: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -29,6 +33,8 @@ class ViewController: UIViewController {
                 [weak self] (data: CMAccelerometerData?, error: Error?) in
                 if (data?.acceleration) != nil {
                     self?.accelXText.text = String(format: "%.2f", (manager.accelerometerData?.acceleration.x)!)
+                    self?.accelYText.text = String(format: "%.2f", (manager.accelerometerData?.acceleration.y)!)
+                    self?.accelZText.text = String(format: "%.2f", (manager.accelerometerData?.acceleration.z)!)
                 }
             }
             /*
@@ -41,10 +47,10 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func stateUpdate() {
+    /*func stateUpdate() {
         if manager.accelerometerData != nil {
             accelXText.text = String(format: "%.2f", (manager.accelerometerData?.acceleration.x)!)
         }
-    }
+    }*/
 
 }
