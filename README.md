@@ -31,5 +31,8 @@ Summary: Look at the accelerometer and gyro data to predict whether a user is si
 1. https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html
 2. https://developer.apple.com/library/content/referencelibrary/GettingStarted/DevelopiOSAppsSwift/
 
+### Swift StackExchange threads:
+1. http://stackoverflow.com/questions/24097826/read-and-write-data-from-text-file
+
 ### Xcode help
 1. http://mrgott.com/swift-programing/18-how-to-run-ios-application-on-your-iphone-using-xcode-7
