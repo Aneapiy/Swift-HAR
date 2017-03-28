@@ -8,7 +8,7 @@ Human activity recognition on iPhones using Swift.
 Summary: Look at the accelerometer and gyro data to predict whether a user is sitting, walking, or running.
 1. Read accelerometer and gyro data for 1 activity for 30 seconds.
 2. Write the recorded data from memory to a file along with a tag.
-4. Create multiple data files by using a slidiing window to sample the 30 second data.
+4. Create multiple data files by using a sliding window to sample the 30 second data.
 2. Split the data into a training and a testing set. 
 3. Train the classifier (maybe SVM or FFN).
 4. Test the classifier with a subset of test data.
