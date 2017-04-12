@@ -26,6 +26,7 @@ Summary: Look at the accelerometer and gyro data to predict whether a user is si
 6. https://www.hackingwithswift.com/example-code/system/how-to-use-core-motion-to-read-accelerometer-data
 7. http://nshipster.com/cmdevicemotion/
 8. https://medium.com/@0xben/using-github-with-xcode-6-8208b92c7a60#.tztc1xfqr
+9. http://www.mydrivesolutions.com/engineering/swift-data-collection/
 
 ### Swift Tutorials:
 1. https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html
