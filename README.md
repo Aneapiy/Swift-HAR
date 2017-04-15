@@ -37,6 +37,7 @@ Summary: Look at the accelerometer and gyro data to predict whether a user is si
 
 ### Swift StackExchange threads:
 1. http://stackoverflow.com/questions/24097826/read-and-write-data-from-text-file
+2. delay function: http://stackoverflow.com/questions/39787319/add-a-delay-to-a-for-loop-in-swift
 
 ### Xcode help
 1. http://mrgott.com/swift-programing/18-how-to-run-ios-application-on-your-iphone-using-xcode-7
