@@ -12,13 +12,17 @@ import CoreMotion
 let manager = CMMotionManager()
 
 class ViewController: UIViewController {
-
+    
+    //Var outlets
+    
     @IBOutlet weak var accelXText: UITextField!
     @IBOutlet weak var accelYText: UITextField!
     @IBOutlet weak var accelZText: UITextField!
     @IBOutlet weak var gyroXText: UITextField!
     @IBOutlet weak var gyroYText: UITextField!
     @IBOutlet weak var gyroZText: UITextField!
+    
+    //viewfunc
     
     override func viewDidLoad() {
         super.viewDidLoad()
