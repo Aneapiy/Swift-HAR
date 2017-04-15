@@ -12,6 +12,8 @@
 		79B02DFA1E86C9A300D8B62F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79B02DF81E86C9A300D8B62F /* Main.storyboard */; };
 		79B02DFC1E86C9A300D8B62F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79B02DFB1E86C9A300D8B62F /* Assets.xcassets */; };
 		79B02DFF1E86C9A300D8B62F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79B02DFD1E86C9A300D8B62F /* LaunchScreen.storyboard */; };
+		79F8DFA51EA2B71000059953 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79F8DFA41EA2B71000059953 /* CoreMotion.framework */; };
+		79F8DFA71EA2B71A00059953 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79F8DFA61EA2B71A00059953 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		79B02DFB1E86C9A300D8B62F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79B02DFE1E86C9A300D8B62F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		79B02E001E86C9A300D8B62F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79F8DFA41EA2B71000059953 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		79F8DFA61EA2B71A00059953 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +33,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79F8DFA71EA2B71A00059953 /* CoreData.framework in Frameworks */,
+				79F8DFA51EA2B71000059953 /* CoreMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +46,7 @@
 			children = (
 				79B02DF31E86C9A300D8B62F /* Swift-HAR */,
 				79B02DF21E86C9A300D8B62F /* Products */,
+				79F8DFA31EA2B71000059953 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +69,15 @@
 				79B02E001E86C9A300D8B62F /* Info.plist */,
 			);
 			path = "Swift-HAR";
+			sourceTree = "<group>";
+		};
+		79F8DFA31EA2B71000059953 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				79F8DFA61EA2B71A00059953 /* CoreData.framework */,
+				79F8DFA41EA2B71000059953 /* CoreMotion.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
