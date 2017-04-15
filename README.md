@@ -33,6 +33,7 @@ Summary: Look at the accelerometer and gyro data to predict whether a user is si
 2. https://developer.apple.com/library/content/referencelibrary/GettingStarted/DevelopiOSAppsSwift/
 3. Accelerometer data recorder: https://developer.apple.com/reference/coremotion/cmsensorrecorder
 4. Ben Cormier's tutorial on "Swift Tutorial: Core Motion (Accelerometer/Gyroscope)"
+5. https://www.sitepoint.com/creating-hello-world-app-swift/
 
 ### Swift StackExchange threads:
 1. http://stackoverflow.com/questions/24097826/read-and-write-data-from-text-file
