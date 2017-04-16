@@ -44,6 +44,21 @@ class ViewController: UIViewController {
         print("Stop Live Update Button Clicked!")
         self.stopUpdates()
     }
+    
+    @IBAction func recSavStandBPressed(_ sender: Any) {
+        actionType = "standing"
+        self.startLoggingData()
+        delay(14){self.exportToText()}
+    }
+    
+    @IBAction func recSaveWalkBPressed(_ sender: Any) {
+        actionType = "walking"
+        self.startLoggingData()
+        delay(14){self.exportToText()}
+    }
+    
+    
+    
     // MARK: Main constants and vars
     let updateInterval = 0.01
     let dataLogTime = 10.0 //seconds
@@ -55,6 +70,7 @@ class ViewController: UIViewController {
     var ax = 0.0
     var ay = 0.0
     var az = 0.0
+    var actionType = "unDefData"
     
     //Create an emtpy array to store the data
     var dataMatrix = [[Double]]()
@@ -172,7 +188,9 @@ class ViewController: UIViewController {
         */
         
         //this is the file. we will write to. The name of the file will be the action tag TODO
-        let file = "dataLog.txt"
+        //let file = "dataLog.txt"
+        
+        let file = makeFileName(actionType)
         
         let exportText = flattenDataMatrix(dataMatrix)
         
@@ -208,6 +226,20 @@ class ViewController: UIViewController {
         return returnString
     }
     
+    func makeFileName(_ state: String) -> String {
+        return state + "_" + fileTagger()
+    }
+    
+    func fileTagger() -> String {
+        let date = Date()
+        let dateString = date.description
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        let seconds = calendar.component(.second, from: date)
+        let dateTag = dateString.substring(to: dateString.index(dateString.startIndex, offsetBy: 10))
+        return "\(dateTag)-\(hour)\(minutes)\(seconds)"
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
