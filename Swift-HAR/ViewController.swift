@@ -41,9 +41,21 @@ class ViewController: UIViewController {
         print("Stop Live Update Button Clicked!")
         self.stopUpdates()
     }
-    // MARK: Main constants
+    // MARK: Main constants and vars
     let updateInterval = 0.1
     let dataLogTime = 10.0 //seconds
+    var columnNum:Int = 0
+    var timer = Timer()
+    var counter = 0
+    var i = 0
+    var dataInd = 0.0
+    var ax = 0.0
+    var ay = 0.0
+    var az = 0.0
+    
+    //Create an emtpy array to store the data
+    var dataMatrix = [[Double]]()
+    
     // MARK: init
     
     override func viewDidLoad() {
@@ -61,7 +73,9 @@ class ViewController: UIViewController {
         gyroXText.text = "Gyro-X: 0.0"
         gyroYText.text = "Gyro-Y: 0.0"
         gyroZText.text = "Gyro-Z: 0.0"
-
+        columnNum = Int(dataLogTime/updateInterval)
+        dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: columnNum)
+        
         if manager.isGyroAvailable && manager.isAccelerometerAvailable && manager.isDeviceMotionAvailable {
             //Set sensor data updates to 0.1 seconds
             manager.accelerometerUpdateInterval = updateInterval
@@ -99,34 +113,50 @@ class ViewController: UIViewController {
     }
     
     func startLoggingData(){
-        let columnNum = Int(dataLogTime/updateInterval)
-        
-        //Create an emtpy array to store the data
-        var dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: columnNum)
-        
+        print("Start logging data")
         //start accelerometer data and loop through the dataMatrix to store data
         manager.startAccelerometerUpdates(to: .main) {
             [weak self] (data: CMAccelerometerData?, error: Error?) in
             if (data?.acceleration) != nil {
-                var dataInd = 0.0
-                for i in 0..<columnNum{
-                    dataMatrix[i][0] = dataInd
-                    dataInd += (self?.updateInterval)!
-                    dataMatrix[i][1] = (data?.acceleration.x)!
-                    dataMatrix[i][2] = (data?.acceleration.y)!
-                    dataMatrix[i][3] = (data?.acceleration.z)!
-                }
-                print(dataMatrix) //for testing only
+                self?.ax = (data?.acceleration.x)!
+                self?.ay = (data?.acceleration.y)!
+                self?.az = (data?.acceleration.z)!
             }
         }
-        self.stopUpdates()
+        
+        timer = Timer.scheduledTimer(timeInterval: updateInterval, target:self, selector: #selector(self.recordToDataMatrix), userInfo: nil, repeats: true)
     }
-    
+
+    func recordToDataMatrix(){
+        if i == columnNum{
+            self.timer.invalidate()
+            print("Finished logging data")
+            print(dataMatrix) //for testing only
+            i = 0
+            dataInd = 0.0
+            stopUpdates()
+        }
+        else {
+            dataMatrix[i][0] = dataInd
+            dataMatrix[i][1] = ax
+            dataMatrix[i][2] = ay
+            dataMatrix[i][3] = az
+            i += 1
+            dataInd += self.updateInterval
+        }
+    }
     func stopUpdates(){
         manager.stopAccelerometerUpdates()
         manager.stopGyroUpdates()
+        self.timer.invalidate()
     }
     
+    func delay(_ delay:Double, closure:@escaping ()->()){
+        //function from stack overflow. Delay in seconds
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
