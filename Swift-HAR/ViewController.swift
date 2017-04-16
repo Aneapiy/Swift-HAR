@@ -30,9 +30,11 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func retDataButtonPressed(_ sender: Any) {
-        
+    @IBAction func saveBPressed(_ sender: Any) {
+        self.exportToText()
     }
+
+    
     @IBAction func startLiveRecBPressed(_ sender: Any) {
         print("Start Live Update Button Clicked!")
         self.startLiveUpdates()
@@ -157,6 +159,33 @@ class ViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
         
     }
+    
+    func exportToText(){
+        print("Exporting")
+        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("dataFile.txt")
+        (dataMatrix[0] as NSArray).write(to: fileURL, atomically: true)
+        
+        let file = "file.txt" //this is the file. we will write to and read from it
+        
+        let text = "some text" //just a text
+        
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            
+            let path = dir.appendingPathComponent(file)
+            
+            //writing
+            do {
+                try text.write(to: path, atomically: false, encoding: String.Encoding.utf8)
+            }
+            catch {/* error handling here */}
+            do {
+                let text2 = try String(contentsOf: path, encoding: String.Encoding.utf8)
+                print("\(text2)")
+            }
+            catch {/* error handling here */}
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

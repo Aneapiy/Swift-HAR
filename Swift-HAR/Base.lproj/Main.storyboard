@@ -105,9 +105,9 @@
                                 <rect key="frame" x="87" y="413" width="201" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <state key="normal" title="Retrieve Data"/>
+                                <state key="normal" title="Save Data"/>
                                 <connections>
-                                    <action selector="retDataButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V5c-E9-dLF"/>
+                                    <action selector="saveBPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eym-w0-INX"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="L15-yP-cHb">
