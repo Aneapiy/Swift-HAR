@@ -32,8 +32,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accel -X " borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5rq-HQ-kK9">
-                                <rect key="frame" x="87" y="109" width="201" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accel -X " borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5rq-HQ-kK9">
+                                <rect key="frame" x="0.0" y="85" width="180" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="201" id="gyG-rv-qvZ"/>
                                     <constraint firstAttribute="height" constant="30" id="jf6-pm-80D"/>
@@ -42,8 +42,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accel -Y" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZNU-CM-fn6">
-                                <rect key="frame" x="87" y="149" width="201" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accel -Y" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZNU-CM-fn6">
+                                <rect key="frame" x="0.0" y="123" width="180" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Hfa-Rc-viY"/>
                                     <constraint firstAttribute="width" constant="201" id="NSV-cW-HB6"/>
@@ -52,8 +52,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accel -Z" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l7l-KF-obY">
-                                <rect key="frame" x="87" y="189" width="201" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accel -Z" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l7l-KF-obY">
+                                <rect key="frame" x="0.0" y="161" width="180" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Tb2-aX-3bl"/>
                                     <constraint firstAttribute="width" constant="201" id="oK2-cK-tpu"/>
@@ -62,8 +62,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Gyro-X" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kQ2-7P-o6o">
-                                <rect key="frame" x="87" y="229" width="201" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Gyro-X" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kQ2-7P-o6o">
+                                <rect key="frame" x="195" y="85" width="180" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="201" id="mKp-IF-7t9"/>
                                     <constraint firstAttribute="height" constant="30" id="yZl-nx-5sD"/>
@@ -72,21 +72,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Gyro-Y" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zYi-a9-jkR">
-                                <rect key="frame" x="87" y="269" width="201" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Gyro-Y" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zYi-a9-jkR">
+                                <rect key="frame" x="195" y="123" width="180" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="0sr-hK-XSm"/>
                                     <constraint firstAttribute="width" constant="201" id="akC-Dr-TGJ"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Gyro-Z" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lgb-En-bXF">
-                                <rect key="frame" x="87" y="309" width="201" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="201" id="DGd-Gc-iar"/>
-                                    <constraint firstAttribute="height" constant="30" id="SXo-eF-DFS"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -128,6 +118,16 @@
                                     <action selector="startLiveRecBPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1qq-gp-qdj"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Gyro-Z" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lgb-En-bXF">
+                                <rect key="frame" x="195" y="161" width="180" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="201" id="DGd-Gc-iar"/>
+                                    <constraint firstAttribute="height" constant="30" id="SXo-eF-DFS"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.9137254901960784" green="1" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>

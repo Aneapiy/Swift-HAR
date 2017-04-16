@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     // MARK: Main constants and vars
     let updateInterval = 0.1
     let dataLogTime = 10.0 //seconds
-    var columnNum:Int = 0
+    var rowNum:Int = 0
     var timer = Timer()
     var counter = 0
     var i = 0
@@ -75,8 +75,8 @@ class ViewController: UIViewController {
         gyroXText.text = "Gyro-X: 0.0"
         gyroYText.text = "Gyro-Y: 0.0"
         gyroZText.text = "Gyro-Z: 0.0"
-        columnNum = Int(dataLogTime/updateInterval)
-        dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: columnNum)
+        rowNum = Int(dataLogTime/updateInterval)
+        dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: rowNum)
         
         if manager.isGyroAvailable && manager.isAccelerometerAvailable && manager.isDeviceMotionAvailable {
             //Set sensor data updates to 0.1 seconds
@@ -130,7 +130,7 @@ class ViewController: UIViewController {
     }
 
     func recordToDataMatrix(){
-        if i == columnNum{
+        if i == rowNum{
             self.timer.invalidate()
             print("Finished logging data")
             print(dataMatrix) //for testing only
@@ -162,12 +162,15 @@ class ViewController: UIViewController {
     
     func exportToText(){
         print("Exporting")
+        /*
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("dataFile.txt")
         (dataMatrix[0] as NSArray).write(to: fileURL, atomically: true)
+        */
         
-        let file = "file.txt" //this is the file. we will write to and read from it
+        //this is the file. we will write to. The name of the file will be the action tag TODO
+        let file = "dataLog.txt"
         
-        let text = "some text" //just a text
+        let exportText = flattenDataMatrix(dataMatrix)
         
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             
@@ -175,15 +178,29 @@ class ViewController: UIViewController {
             
             //writing
             do {
-                try text.write(to: path, atomically: false, encoding: String.Encoding.utf8)
+                try exportText.write(to: path, atomically: true, encoding: String.Encoding.utf8)
+                print("Export Successful!")
             }
-            catch {/* error handling here */}
+            catch {print(error)} //and then QQ in the fetal position
+            /*
             do {
                 let text2 = try String(contentsOf: path, encoding: String.Encoding.utf8)
                 print("\(text2)")
             }
             catch {/* error handling here */}
+            */
         }
+    }
+    
+    func flattenDataMatrix(_ arr2D: [[Double]]) -> String {
+        var returnString = "time,accelx,accely,accelz"
+        for row in arr2D {
+            let stringArray = row.flatMap{String($0)}
+            let string = stringArray.joined(separator: ",")
+            returnString.append("\n"+string)
+        }
+        
+        return returnString
     }
     
     override func didReceiveMemoryWarning() {
