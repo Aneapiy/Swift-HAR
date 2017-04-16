@@ -143,8 +143,9 @@ class ViewController: UIViewController {
                 self?.az = (data?.acceleration.z)!
             }
         }
-        
-        timer = Timer.scheduledTimer(timeInterval: updateInterval, target:self, selector: #selector(self.recordToDataMatrix), userInfo: nil, repeats: true)
+        delay(0.5){
+            self.timer = Timer.scheduledTimer(timeInterval: self.updateInterval, target:self, selector: #selector(self.recordToDataMatrix), userInfo: nil, repeats: true)
+        }
     }
 
     func recordToDataMatrix(){
@@ -227,7 +228,7 @@ class ViewController: UIViewController {
     }
     
     func makeFileName(_ state: String) -> String {
-        return state + "_" + fileTagger()
+        return state + "_" + fileTagger() + ".csv"
     }
     
     func fileTagger() -> String {
@@ -237,7 +238,7 @@ class ViewController: UIViewController {
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
         let seconds = calendar.component(.second, from: date)
-        let dateTag = dateString.substring(to: dateString.index(dateString.startIndex, offsetBy: 10))
+        let dateTag = dateString.substring(to: dateString.index(dateString.startIndex, offsetBy: 10)).replacingOccurrences(of: "-", with: "")
         return "\(dateTag)-\(hour)\(minutes)\(seconds)"
     }
     override func didReceiveMemoryWarning() {
