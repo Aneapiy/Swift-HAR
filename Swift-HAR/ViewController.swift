@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var gyroXText: UITextField!
     @IBOutlet weak var gyroYText: UITextField!
     @IBOutlet weak var gyroZText: UITextField!
+    @IBOutlet weak var currentAppStatus: UITextView!
     
     // MARK: Buttons
     @IBAction func recDataButtonPressed(_ sender: Any) {
@@ -44,7 +45,7 @@ class ViewController: UIViewController {
         self.stopUpdates()
     }
     // MARK: Main constants and vars
-    let updateInterval = 0.1
+    let updateInterval = 0.01
     let dataLogTime = 10.0 //seconds
     var rowNum:Int = 0
     var timer = Timer()
@@ -116,6 +117,7 @@ class ViewController: UIViewController {
     
     func startLoggingData(){
         print("Start logging data")
+        currentAppStatus.text = "Data Logging Started"
         //start accelerometer data and loop through the dataMatrix to store data
         manager.startAccelerometerUpdates(to: .main) {
             [weak self] (data: CMAccelerometerData?, error: Error?) in
@@ -134,6 +136,7 @@ class ViewController: UIViewController {
             self.timer.invalidate()
             print("Finished logging data")
             print(dataMatrix) //for testing only
+            currentAppStatus.text = "Data Logging Complete"
             i = 0
             dataInd = 0.0
             stopUpdates()
@@ -162,6 +165,7 @@ class ViewController: UIViewController {
     
     func exportToText(){
         print("Exporting")
+        currentAppStatus.text = "Exporting..."
         /*
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("dataFile.txt")
         (dataMatrix[0] as NSArray).write(to: fileURL, atomically: true)
@@ -180,6 +184,7 @@ class ViewController: UIViewController {
             do {
                 try exportText.write(to: path, atomically: true, encoding: String.Encoding.utf8)
                 print("Export Successful!")
+                currentAppStatus.text = "Export Complete!"
             }
             catch {print(error)} //and then QQ in the fetal position
             /*
@@ -212,7 +217,6 @@ class ViewController: UIViewController {
             accelXText.text = String(format: "%.2f", (manager.accelerometerData?.acceleration.x)!)
         }
     }*/
-
 }
 
 // MARK: - UITextFieldDelegate
