@@ -75,6 +75,7 @@ class ViewController: UIViewController {
     var bootTestDataNum = 20
     var bootStepSize = 0
     var ptsPerData = 100
+    var numOfActions = 2
     
     //Create an FFNN instance
     let network = FFNN(inputs: 100, hidden: 64, outputs: 2, learningRate: 0.7, momentum: 0.4, weights: nil, activationFunction: .Sigmoid, errorFunction: .crossEntropy(average: false))
@@ -86,6 +87,8 @@ class ViewController: UIViewController {
     var walkTrainMatrix = [[Float]]()
     var standTestMatrix = [[Float]]()
     var walkTestMatrix = [[Float]]()
+    var trainAnswers = [[Float]]()
+    var testAnswers = [[Float]]()
     
     // MARK: init
     
@@ -105,14 +108,16 @@ class ViewController: UIViewController {
         gyroYText.text = "Gyro-Y: 0.0"
         gyroZText.text = "Gyro-Z: 0.0"
         rowNum = Int(dataLogTime/updateInterval)
-        bootStepSize = rowNum/(bootTrainDataNum + bootTestDataNum)
+        ptsPerData = rowNum/(bootTrainDataNum + bootTestDataNum) //should be 100
         
         //Preallocate matrices for storing data
         dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: rowNum)
         standTrainMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
         walkTrainMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
-        standTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
-        walkTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
+        standTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTestDataNum)
+        walkTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTestDataNum)
+        trainAnswers = Array(repeating: Array(repeating: 0.0, count: numOfActions), count: bootTrainDataNum)
+        testAnswers = Array(repeating: Array(repeating: 0.0, count: numOfActions), count: bootTestDataNum)
         
         if manager.isGyroAvailable && manager.isAccelerometerAvailable && manager.isDeviceMotionAvailable {
             //Set sensor data updates to the updateInterval
@@ -121,7 +126,9 @@ class ViewController: UIViewController {
 
         }
     }
-    // MARK: Output data functions
+    // TODO: Turn all this mess under here into classes instead of func
+    
+    // MARK: Live update data functions
     func outputAccData(acceleration: CMAcceleration){
         accelXText.text = "Accel-X: " + "\(acceleration.x).2fg"
         accelYText.text = "Accel-Y: " + "\(acceleration.y).2fg"
@@ -150,6 +157,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // MARK: Data logging
     func startLoggingData(){
         print("Start logging data")
         currentAppStatus.text = "Data Logging Started"
@@ -199,6 +207,40 @@ class ViewController: UIViewController {
         
     }
     
+    // MARK: Data analysis
+    //      Create the test and training sets
+    func createTestTrainMatrix(state: String, arr2D: [[Float]]){
+        //only using accelz right now
+
+    }
+    
+    func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int) -> [[Float]]{
+        var accelZOnly = get1DArray(arr2D: arr2D, setsNum: setsNum)
+        var returnArray: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize), count: setsNum)
+        var pointer1 = startPt
+        var pointer2 = pointer1 + windowSize
+        for k in 0..<setsNum {
+            returnArray[k]=Array(accelZOnly[pointer1..<pointer2])
+            pointer1 += stride
+            pointer2 = pointer1 + windowSize
+            //do stuff
+        }
+        
+        return returnArray
+    }
+    
+    func get1DArray(arr2D: [[Float]], setsNum: Int) -> [Float]{
+        var accel1D: [Float] = Array(repeating: 0.0, count: setsNum)
+        var j: Int = 0
+        //flatten accel in z to a 1D array
+        for row in arr2D {
+            accel1D[j] = row[0]
+            j += 1
+        }
+        return accel1D
+    }
+    
+    // MARK: Data exporting
     func exportToText(){
         print("Exporting")
         currentAppStatus.text = "Exporting..."
@@ -207,7 +249,7 @@ class ViewController: UIViewController {
         (dataMatrix[0] as NSArray).write(to: fileURL, atomically: true)
         */
         
-        //this is the file. we will write to. The name of the file will be the action tag TODO
+        //this is the file. we will write to.
         //let file = "dataLog.txt"
         
         let file = makeFileName(actionType)
@@ -260,15 +302,13 @@ class ViewController: UIViewController {
         let dateTag = dateString.substring(to: dateString.index(dateString.startIndex, offsetBy: 10)).replacingOccurrences(of: "-", with: "")
         return "\(dateTag)-\(hour)\(minutes)\(seconds)"
     }
+    
+    // TODO: Write function for clearing doc directory
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    /*func stateUpdate() {
-        if manager.accelerometerData != nil {
-            accelXText.text = String(format: "%.2f", (manager.accelerometerData?.acceleration.x)!)
-        }
-    }*/
 }
 
 // MARK: - UITextFieldDelegate
