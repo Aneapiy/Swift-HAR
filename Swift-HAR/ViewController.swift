@@ -72,6 +72,9 @@ class ViewController: UIViewController {
     var az = 0.0
     var actionType = "unDefData"
     
+    //Create an FFNN instance
+    let network = FFNN(inputs: 100, hidden: 64, outputs: 2, learningRate: 0.7, momentum: 0.4, weights: nil, activationFunction: .Sigmoid, errorFunction: .crossEntropy(average: false))
+    
     //Create an emtpy array to store the data
     var dataMatrix = [[Double]]()
     

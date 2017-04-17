@@ -7,24 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7991B1011EA4470A00CFF179 /* FFNN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FA1EA4470A00CFF179 /* FFNN.swift */; };
+		7991B1021EA4470A00CFF179 /* FFNN+Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FB1EA4470A00CFF179 /* FFNN+Storage.swift */; };
+		7991B1031EA4470A00CFF179 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FC1EA4470A00CFF179 /* Matrix.swift */; };
+		7991B1041EA4470A00CFF179 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FD1EA4470A00CFF179 /* Operations.swift */; };
+		7991B1051EA4470A00CFF179 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FE1EA4470A00CFF179 /* Random.swift */; };
+		7991B1061EA4470A00CFF179 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FF1EA4470A00CFF179 /* Storage.swift */; };
+		7991B1071EA4470A00CFF179 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B1001EA4470A00CFF179 /* Vector.swift */; };
 		79B02DF51E86C9A300D8B62F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B02DF41E86C9A300D8B62F /* AppDelegate.swift */; };
 		79B02DF71E86C9A300D8B62F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B02DF61E86C9A300D8B62F /* ViewController.swift */; };
 		79B02DFA1E86C9A300D8B62F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79B02DF81E86C9A300D8B62F /* Main.storyboard */; };
 		79B02DFC1E86C9A300D8B62F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79B02DFB1E86C9A300D8B62F /* Assets.xcassets */; };
 		79B02DFF1E86C9A300D8B62F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79B02DFD1E86C9A300D8B62F /* LaunchScreen.storyboard */; };
-		79EAC3491EA43CA600597EC8 /* Activation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EAC3411EA43CA600597EC8 /* Activation.swift */; };
-		79EAC34A1EA43CA600597EC8 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EAC3421EA43CA600597EC8 /* Cache.swift */; };
-		79EAC34B1EA43CA600597EC8 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EAC3431EA43CA600597EC8 /* Config.swift */; };
-		79EAC34C1EA43CA600597EC8 /* Cost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EAC3441EA43CA600597EC8 /* Cost.swift */; };
-		79EAC34D1EA43CA600597EC8 /* Dataset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EAC3451EA43CA600597EC8 /* Dataset.swift */; };
-		79EAC34E1EA43CA600597EC8 /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EAC3461EA43CA600597EC8 /* NeuralNet.swift */; };
-		79EAC34F1EA43CA600597EC8 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EAC3471EA43CA600597EC8 /* Storage.swift */; };
-		79EAC3501EA43CA600597EC8 /* Structure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EAC3481EA43CA600597EC8 /* Structure.swift */; };
 		79F8DFA51EA2B71000059953 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79F8DFA41EA2B71000059953 /* CoreMotion.framework */; };
 		79F8DFA71EA2B71A00059953 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79F8DFA61EA2B71A00059953 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7991B0FA1EA4470A00CFF179 /* FFNN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFNN.swift; sourceTree = "<group>"; };
+		7991B0FB1EA4470A00CFF179 /* FFNN+Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FFNN+Storage.swift"; sourceTree = "<group>"; };
+		7991B0FC1EA4470A00CFF179 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		7991B0FD1EA4470A00CFF179 /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
+		7991B0FE1EA4470A00CFF179 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		7991B0FF1EA4470A00CFF179 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		7991B1001EA4470A00CFF179 /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		79B02DF11E86C9A300D8B62F /* Swift-HAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift-HAR.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79B02DF41E86C9A300D8B62F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79B02DF61E86C9A300D8B62F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -32,14 +38,6 @@
 		79B02DFB1E86C9A300D8B62F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79B02DFE1E86C9A300D8B62F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		79B02E001E86C9A300D8B62F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		79EAC3411EA43CA600597EC8 /* Activation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activation.swift; sourceTree = "<group>"; };
-		79EAC3421EA43CA600597EC8 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
-		79EAC3431EA43CA600597EC8 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		79EAC3441EA43CA600597EC8 /* Cost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cost.swift; sourceTree = "<group>"; };
-		79EAC3451EA43CA600597EC8 /* Dataset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dataset.swift; sourceTree = "<group>"; };
-		79EAC3461EA43CA600597EC8 /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNet.swift; sourceTree = "<group>"; };
-		79EAC3471EA43CA600597EC8 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		79EAC3481EA43CA600597EC8 /* Structure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structure.swift; sourceTree = "<group>"; };
 		79F8DFA41EA2B71000059953 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		79F8DFA61EA2B71A00059953 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -77,14 +75,13 @@
 		79B02DF31E86C9A300D8B62F /* Swift-HAR */ = {
 			isa = PBXGroup;
 			children = (
-				79EAC3411EA43CA600597EC8 /* Activation.swift */,
-				79EAC3421EA43CA600597EC8 /* Cache.swift */,
-				79EAC3431EA43CA600597EC8 /* Config.swift */,
-				79EAC3441EA43CA600597EC8 /* Cost.swift */,
-				79EAC3451EA43CA600597EC8 /* Dataset.swift */,
-				79EAC3461EA43CA600597EC8 /* NeuralNet.swift */,
-				79EAC3471EA43CA600597EC8 /* Storage.swift */,
-				79EAC3481EA43CA600597EC8 /* Structure.swift */,
+				7991B0FA1EA4470A00CFF179 /* FFNN.swift */,
+				7991B0FB1EA4470A00CFF179 /* FFNN+Storage.swift */,
+				7991B0FC1EA4470A00CFF179 /* Matrix.swift */,
+				7991B0FD1EA4470A00CFF179 /* Operations.swift */,
+				7991B0FE1EA4470A00CFF179 /* Random.swift */,
+				7991B0FF1EA4470A00CFF179 /* Storage.swift */,
+				7991B1001EA4470A00CFF179 /* Vector.swift */,
 				79B02DF41E86C9A300D8B62F /* AppDelegate.swift */,
 				79B02DF61E86C9A300D8B62F /* ViewController.swift */,
 				79B02DF81E86C9A300D8B62F /* Main.storyboard */,
@@ -177,16 +174,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79EAC34E1EA43CA600597EC8 /* NeuralNet.swift in Sources */,
-				79EAC34C1EA43CA600597EC8 /* Cost.swift in Sources */,
-				79EAC34D1EA43CA600597EC8 /* Dataset.swift in Sources */,
+				7991B1011EA4470A00CFF179 /* FFNN.swift in Sources */,
+				7991B1031EA4470A00CFF179 /* Matrix.swift in Sources */,
+				7991B1021EA4470A00CFF179 /* FFNN+Storage.swift in Sources */,
+				7991B1041EA4470A00CFF179 /* Operations.swift in Sources */,
 				79B02DF71E86C9A300D8B62F /* ViewController.swift in Sources */,
-				79EAC3491EA43CA600597EC8 /* Activation.swift in Sources */,
-				79EAC34F1EA43CA600597EC8 /* Storage.swift in Sources */,
-				79EAC34B1EA43CA600597EC8 /* Config.swift in Sources */,
-				79EAC3501EA43CA600597EC8 /* Structure.swift in Sources */,
-				79EAC34A1EA43CA600597EC8 /* Cache.swift in Sources */,
+				7991B1061EA4470A00CFF179 /* Storage.swift in Sources */,
 				79B02DF51E86C9A300D8B62F /* AppDelegate.swift in Sources */,
+				7991B1071EA4470A00CFF179 /* Vector.swift in Sources */,
+				7991B1051EA4470A00CFF179 /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
