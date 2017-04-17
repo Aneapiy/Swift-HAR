@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func saveBPressed(_ sender: Any) {
-        self.exportToText()
+        self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
     }
 
     
@@ -48,16 +48,26 @@ class ViewController: UIViewController {
     @IBAction func recSavStandBPressed(_ sender: Any) {
         actionType = "standing"
         self.startLoggingData()
-        delay(14){self.exportToText()}
+        delay(14){
+            self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
+            self.standTrainMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTrainDataNum, startPt: 0, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
+            self.standTestMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
+            self.exportToText(currMatrix: self.standTrainMatrix, action: "standing-train")
+            self.exportToText(currMatrix: self.standTestMatrix, action: "standing-test")
+        }
     }
     
     @IBAction func recSaveWalkBPressed(_ sender: Any) {
         actionType = "walking"
         self.startLoggingData()
-        delay(14){self.exportToText()}
+        delay(14){
+            self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
+            self.walkTrainMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTrainDataNum, startPt: 0, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
+            self.walkTestMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
+            self.exportToText(currMatrix: self.walkTrainMatrix, action: "walking-train")
+            self.exportToText(currMatrix: self.walkTestMatrix, action: "walking-test")
+        }
     }
-    
-    
     
     // MARK: Main constants and vars
     let updateInterval = 0.01
@@ -71,10 +81,16 @@ class ViewController: UIViewController {
     var ay:Float = 0.0
     var az:Float = 0.0
     var actionType = "unDefData"
-    var bootTrainDataNum = 80
+    
+    //Vars below must satisfy this equation
+    //ptsPerData = rowNum/(bootTrainDataNum + bootTestDataNum + bootStepSize)
+    var bootTrainDataNum = 70
     var bootTestDataNum = 20
-    var bootStepSize = 0
+    var bootStepSize = 10
     var ptsPerData = 100
+    var testStartPt = 0
+    
+    //Number of possible actions the app will recognize
     var numOfActions = 2
     
     //Create an FFNN instance
@@ -111,7 +127,9 @@ class ViewController: UIViewController {
         gyroYText.text = "Gyro-Y: 0.0"
         gyroZText.text = "Gyro-Z: 0.0"
         rowNum = Int(dataLogTime/updateInterval)
-        ptsPerData = rowNum/(bootTrainDataNum + bootTestDataNum) //should be 100
+        testStartPt = bootTrainDataNum * bootStepSize
+        
+        //Initialize an untrained neural network
         do {
             let structure = try NeuralNet.Structure(inputs: 100, hidden: 64, outputs: 2)
             let config = try NeuralNet.Configuration(hiddenActivation: .rectifiedLinear, outputActivation: .sigmoid, cost: .meanSquared, learningRate: 0.4, momentum: 0.2)
@@ -220,10 +238,6 @@ class ViewController: UIViewController {
     
     // MARK: Data analysis
     //      Create the test and training sets
-    func createTestTrainMatrix(state: String, arr2D: [[Float]]){
-        //only using accelz right now
-
-    }
     
     func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int, rowNums: Int) -> [[Float]]{
         var accelZOnly = get1DArray(arr2D: arr2D, rowNums: rowNums)
@@ -251,7 +265,7 @@ class ViewController: UIViewController {
     }
     
     // MARK: Data exporting
-    func exportToText(){
+    func exportToText(currMatrix: [[Float]], action: String){
         print("Exporting")
         currentAppStatus.text = "Exporting..."
         /*
@@ -262,9 +276,9 @@ class ViewController: UIViewController {
         //this is the file. we will write to.
         //let file = "dataLog.txt"
         
-        let file = makeFileName(actionType)
+        let file = makeFileName(action)
         
-        let exportText = flattenDataMatrix(dataMatrix)
+        let exportText = flattenDataMatrix(currMatrix)
         
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             
