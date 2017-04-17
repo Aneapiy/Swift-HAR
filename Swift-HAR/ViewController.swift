@@ -66,20 +66,26 @@ class ViewController: UIViewController {
     var timer = Timer()
     var counter = 0
     var i = 0
-    var dataInd = 0.0
-    var ax = 0.0
-    var ay = 0.0
-    var az = 0.0
+    var dataInd: Float = 0.0
+    var ax: Float = 0.0
+    var ay:Float = 0.0
+    var az:Float = 0.0
     var actionType = "unDefData"
+    var bootTrainDataNum = 80
+    var bootTestDataNum = 20
+    var bootStepSize = 0
+    var ptsPerData = 100
     
     //Create an FFNN instance
     let network = FFNN(inputs: 100, hidden: 64, outputs: 2, learningRate: 0.7, momentum: 0.4, weights: nil, activationFunction: .Sigmoid, errorFunction: .crossEntropy(average: false))
     
-    //Create an emtpy array to store the data
+    //Create an empty array to store the data
     // Try just looking at the z acceleration for now to test FFNN
-    var dataMatrix = [[Double]]()
-    var standMatrix = [[Float]]()
-    var walkMatrix = [[Float]]()
+    var dataMatrix = [[Float]]()
+    var standTrainMatrix = [[Float]]()
+    var walkTrainMatrix = [[Float]]()
+    var standTestMatrix = [[Float]]()
+    var walkTestMatrix = [[Float]]()
     
     // MARK: init
     
@@ -99,11 +105,17 @@ class ViewController: UIViewController {
         gyroYText.text = "Gyro-Y: 0.0"
         gyroZText.text = "Gyro-Z: 0.0"
         rowNum = Int(dataLogTime/updateInterval)
+        bootStepSize = rowNum/(bootTrainDataNum + bootTestDataNum)
+        
+        //Preallocate matrices for storing data
         dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: rowNum)
-        standMatrix = Array(repeating)
+        standTrainMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
+        walkTrainMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
+        standTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
+        walkTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
         
         if manager.isGyroAvailable && manager.isAccelerometerAvailable && manager.isDeviceMotionAvailable {
-            //Set sensor data updates to 0.1 seconds
+            //Set sensor data updates to the updateInterval
             manager.accelerometerUpdateInterval = updateInterval
             manager.gyroUpdateInterval = updateInterval
 
@@ -145,9 +157,9 @@ class ViewController: UIViewController {
         manager.startAccelerometerUpdates(to: .main) {
             [weak self] (data: CMAccelerometerData?, error: Error?) in
             if (data?.acceleration) != nil {
-                self?.ax = (data?.acceleration.x)!
-                self?.ay = (data?.acceleration.y)!
-                self?.az = (data?.acceleration.z)!
+                self?.ax = Float((data?.acceleration.x)!)
+                self?.ay = Float((data?.acceleration.y)!)
+                self?.az = Float((data?.acceleration.z)!)
             }
         }
         delay(0.5){
@@ -171,7 +183,7 @@ class ViewController: UIViewController {
             dataMatrix[i][2] = ay
             dataMatrix[i][3] = az
             i += 1
-            dataInd += self.updateInterval
+            dataInd += Float(self.updateInterval)
         }
     }
     func stopUpdates(){
@@ -223,7 +235,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func flattenDataMatrix(_ arr2D: [[Double]]) -> String {
+    func flattenDataMatrix(_ arr2D: [[Float]]) -> String {
         var returnString = "time,accelx,accely,accelz"
         for row in arr2D {
             let stringArray = row.flatMap{String($0)}
