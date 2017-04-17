@@ -1,6 +1,7 @@
 # Swift-HAR
 
 Human activity recognition on iPhones using Swift.
+Feed-Forward Neural Network from Swift-AI by Collin Hundley
 
 ## Notes
 
