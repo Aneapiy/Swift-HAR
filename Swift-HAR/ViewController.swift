@@ -76,7 +76,10 @@ class ViewController: UIViewController {
     let network = FFNN(inputs: 100, hidden: 64, outputs: 2, learningRate: 0.7, momentum: 0.4, weights: nil, activationFunction: .Sigmoid, errorFunction: .crossEntropy(average: false))
     
     //Create an emtpy array to store the data
+    // Try just looking at the z acceleration for now to test FFNN
     var dataMatrix = [[Double]]()
+    var standMatrix = [[Float]]()
+    var walkMatrix = [[Float]]()
     
     // MARK: init
     
@@ -97,6 +100,7 @@ class ViewController: UIViewController {
         gyroZText.text = "Gyro-Z: 0.0"
         rowNum = Int(dataLogTime/updateInterval)
         dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: rowNum)
+        standMatrix = Array(repeating)
         
         if manager.isGyroAvailable && manager.isAccelerometerAvailable && manager.isDeviceMotionAvailable {
             //Set sensor data updates to 0.1 seconds
