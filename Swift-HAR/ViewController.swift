@@ -78,7 +78,10 @@ class ViewController: UIViewController {
     var numOfActions = 2
     
     //Create an FFNN instance
-    let network = FFNN(inputs: 100, hidden: 64, outputs: 2, learningRate: 0.7, momentum: 0.4, weights: nil, activationFunction: .Sigmoid, errorFunction: .crossEntropy(average: false))
+    //let network = FFNN(inputs: 100, hidden: 64, outputs: 2, learningRate: 0.7, momentum: 0.4, weights: nil, activationFunction: .Sigmoid, errorFunction: .crossEntropy(average: false))
+    
+    //Create instance of NN class
+    
     
     //Create an empty array to store the data
     // Try just looking at the z acceleration for now to test FFNN
@@ -109,6 +112,14 @@ class ViewController: UIViewController {
         gyroZText.text = "Gyro-Z: 0.0"
         rowNum = Int(dataLogTime/updateInterval)
         ptsPerData = rowNum/(bootTrainDataNum + bootTestDataNum) //should be 100
+        do {
+            let structure = try NeuralNet.Structure(inputs: 100, hidden: 64, outputs: 2)
+            let config = try NeuralNet.Configuration(hiddenActivation: .rectifiedLinear, outputActivation: .sigmoid, cost: .meanSquared, learningRate: 0.4, momentum: 0.2)
+            let nn = try NeuralNet(structure: structure, config: config)
+        }
+        catch {
+            print(error)
+        }
         
         //Preallocate matrices for storing data
         dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: rowNum)
@@ -214,8 +225,8 @@ class ViewController: UIViewController {
 
     }
     
-    func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int) -> [[Float]]{
-        var accelZOnly = get1DArray(arr2D: arr2D, setsNum: setsNum)
+    func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int, rowNums: Int) -> [[Float]]{
+        var accelZOnly = get1DArray(arr2D: arr2D, rowNums: rowNums)
         var returnArray: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize), count: setsNum)
         var pointer1 = startPt
         var pointer2 = pointer1 + windowSize
@@ -223,14 +234,13 @@ class ViewController: UIViewController {
             returnArray[k]=Array(accelZOnly[pointer1..<pointer2])
             pointer1 += stride
             pointer2 = pointer1 + windowSize
-            //do stuff
         }
         
         return returnArray
     }
     
-    func get1DArray(arr2D: [[Float]], setsNum: Int) -> [Float]{
-        var accel1D: [Float] = Array(repeating: 0.0, count: setsNum)
+    func get1DArray(arr2D: [[Float]], rowNums: Int) -> [Float]{
+        var accel1D: [Float] = Array(repeating: 0.0, count: rowNums)
         var j: Int = 0
         //flatten accel in z to a 1D array
         for row in arr2D {

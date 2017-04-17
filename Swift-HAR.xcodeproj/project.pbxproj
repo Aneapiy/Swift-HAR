@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7991B1011EA4470A00CFF179 /* FFNN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FA1EA4470A00CFF179 /* FFNN.swift */; };
-		7991B1021EA4470A00CFF179 /* FFNN+Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FB1EA4470A00CFF179 /* FFNN+Storage.swift */; };
-		7991B1031EA4470A00CFF179 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FC1EA4470A00CFF179 /* Matrix.swift */; };
-		7991B1041EA4470A00CFF179 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FD1EA4470A00CFF179 /* Operations.swift */; };
-		7991B1051EA4470A00CFF179 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FE1EA4470A00CFF179 /* Random.swift */; };
-		7991B1061EA4470A00CFF179 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B0FF1EA4470A00CFF179 /* Storage.swift */; };
-		7991B1071EA4470A00CFF179 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7991B1001EA4470A00CFF179 /* Vector.swift */; };
+		79A4917F1EA566F9004E79BD /* Activation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A491771EA566F9004E79BD /* Activation.swift */; };
+		79A491801EA566F9004E79BD /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A491781EA566F9004E79BD /* Cache.swift */; };
+		79A491811EA566F9004E79BD /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A491791EA566F9004E79BD /* Config.swift */; };
+		79A491821EA566F9004E79BD /* Cost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4917A1EA566F9004E79BD /* Cost.swift */; };
+		79A491831EA566F9004E79BD /* Dataset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4917B1EA566F9004E79BD /* Dataset.swift */; };
+		79A491841EA566F9004E79BD /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4917C1EA566F9004E79BD /* NeuralNet.swift */; };
+		79A491851EA566F9004E79BD /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4917D1EA566F9004E79BD /* Storage.swift */; };
+		79A491861EA566F9004E79BD /* Structure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A4917E1EA566F9004E79BD /* Structure.swift */; };
 		79B02DF51E86C9A300D8B62F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B02DF41E86C9A300D8B62F /* AppDelegate.swift */; };
 		79B02DF71E86C9A300D8B62F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B02DF61E86C9A300D8B62F /* ViewController.swift */; };
 		79B02DFA1E86C9A300D8B62F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79B02DF81E86C9A300D8B62F /* Main.storyboard */; };
@@ -24,13 +25,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7991B0FA1EA4470A00CFF179 /* FFNN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFNN.swift; sourceTree = "<group>"; };
-		7991B0FB1EA4470A00CFF179 /* FFNN+Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FFNN+Storage.swift"; sourceTree = "<group>"; };
-		7991B0FC1EA4470A00CFF179 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
-		7991B0FD1EA4470A00CFF179 /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
-		7991B0FE1EA4470A00CFF179 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
-		7991B0FF1EA4470A00CFF179 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		7991B1001EA4470A00CFF179 /* Vector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
+		79A491771EA566F9004E79BD /* Activation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activation.swift; sourceTree = "<group>"; };
+		79A491781EA566F9004E79BD /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		79A491791EA566F9004E79BD /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		79A4917A1EA566F9004E79BD /* Cost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cost.swift; sourceTree = "<group>"; };
+		79A4917B1EA566F9004E79BD /* Dataset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dataset.swift; sourceTree = "<group>"; };
+		79A4917C1EA566F9004E79BD /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNet.swift; sourceTree = "<group>"; };
+		79A4917D1EA566F9004E79BD /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		79A4917E1EA566F9004E79BD /* Structure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Structure.swift; sourceTree = "<group>"; };
 		79B02DF11E86C9A300D8B62F /* Swift-HAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift-HAR.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79B02DF41E86C9A300D8B62F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79B02DF61E86C9A300D8B62F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -75,13 +77,14 @@
 		79B02DF31E86C9A300D8B62F /* Swift-HAR */ = {
 			isa = PBXGroup;
 			children = (
-				7991B0FA1EA4470A00CFF179 /* FFNN.swift */,
-				7991B0FB1EA4470A00CFF179 /* FFNN+Storage.swift */,
-				7991B0FC1EA4470A00CFF179 /* Matrix.swift */,
-				7991B0FD1EA4470A00CFF179 /* Operations.swift */,
-				7991B0FE1EA4470A00CFF179 /* Random.swift */,
-				7991B0FF1EA4470A00CFF179 /* Storage.swift */,
-				7991B1001EA4470A00CFF179 /* Vector.swift */,
+				79A491771EA566F9004E79BD /* Activation.swift */,
+				79A491781EA566F9004E79BD /* Cache.swift */,
+				79A491791EA566F9004E79BD /* Config.swift */,
+				79A4917A1EA566F9004E79BD /* Cost.swift */,
+				79A4917B1EA566F9004E79BD /* Dataset.swift */,
+				79A4917C1EA566F9004E79BD /* NeuralNet.swift */,
+				79A4917D1EA566F9004E79BD /* Storage.swift */,
+				79A4917E1EA566F9004E79BD /* Structure.swift */,
 				79B02DF41E86C9A300D8B62F /* AppDelegate.swift */,
 				79B02DF61E86C9A300D8B62F /* ViewController.swift */,
 				79B02DF81E86C9A300D8B62F /* Main.storyboard */,
@@ -174,15 +177,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7991B1011EA4470A00CFF179 /* FFNN.swift in Sources */,
-				7991B1031EA4470A00CFF179 /* Matrix.swift in Sources */,
-				7991B1021EA4470A00CFF179 /* FFNN+Storage.swift in Sources */,
-				7991B1041EA4470A00CFF179 /* Operations.swift in Sources */,
+				79A491841EA566F9004E79BD /* NeuralNet.swift in Sources */,
+				79A491821EA566F9004E79BD /* Cost.swift in Sources */,
+				79A491831EA566F9004E79BD /* Dataset.swift in Sources */,
 				79B02DF71E86C9A300D8B62F /* ViewController.swift in Sources */,
-				7991B1061EA4470A00CFF179 /* Storage.swift in Sources */,
+				79A4917F1EA566F9004E79BD /* Activation.swift in Sources */,
+				79A491851EA566F9004E79BD /* Storage.swift in Sources */,
+				79A491811EA566F9004E79BD /* Config.swift in Sources */,
+				79A491861EA566F9004E79BD /* Structure.swift in Sources */,
+				79A491801EA566F9004E79BD /* Cache.swift in Sources */,
 				79B02DF51E86C9A300D8B62F /* AppDelegate.swift in Sources */,
-				7991B1071EA4470A00CFF179 /* Vector.swift in Sources */,
-				7991B1051EA4470A00CFF179 /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
