@@ -70,6 +70,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func trainNNBPressed(_ sender: Any) {
+        currentAppStatus.text = "Training NeuralNet"
         self.trainNN(nnet: nn, structure: structure, wTrainMatrix: walkTrainMatrix, wTestMatrix: walkTestMatrix, sTrainMatrix: standTrainMatrix, sTestMatrix: standTestMatrix)
     }
     
@@ -84,9 +85,19 @@ class ViewController: UIViewController {
             
             let guessSample = self.guessMatrix[2]
             do{
-                let actionPredict = try self.nn.infer(guessSample)
-                print(actionPredict)
-                self.currentAppStatus.text = String(describing: actionPredict)
+                let inference = try self.nn.infer(guessSample)
+                print(inference)
+                // Stand = [1, 0]
+                // Walk = [0, 1]
+                var action = ""
+                if inference[0] > inference [1]{
+                    action = "NeuralNet predicts: Standing"
+                } else if inference [0] < inference [1] {
+                    action = "NeuralNet predicts: Walking"
+                } else {
+                    action = "NeuralNet's confused"
+                }
+                self.currentAppStatus.text = action
             } catch {print(error)}
         }
 
@@ -271,20 +282,17 @@ class ViewController: UIViewController {
     
     func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int, rowNums: Int) -> [[Float]]{
         let accel1DOnly = get1DArray(arr2D: arr2D, rowNums: rowNums)
-        var accel1Min = accel1DOnly.min()!
-        var accel1Max = accel1DOnly.max()!
+        let accel1Min = accel1DOnly.min()!
+        let accel1Max = accel1DOnly.max()!
         var halfRange:Float = 0
-        if accel1Max < Float(0){
-            accel1Max *= (-1)
-        }
-        if accel1Min < Float(0){
-            accel1Min *= (-1)
-        }
-        if accel1Max >= accel1Min{
+        if accel1Max >= Float(0) && accel1Min >= Float(0){
             halfRange = (accel1Max - accel1Min)/2
+        } else if accel1Max >= Float(0) && accel1Min <= Float(0){
+            halfRange = (accel1Max + (-1 * accel1Min))/2
         } else {
-            halfRange = (accel1Min - accel1Max)/2
+            halfRange = ((accel1Min * -1) - (accel1Max * -1))/2 + (accel1Max * -1) //adding max again to make all data >= 0
         }
+        
         var processedArr = accel1DOnly.map{$0 + halfRange}
         var returnArray: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize), count: setsNum)
         var pointer1 = startPt
@@ -303,7 +311,7 @@ class ViewController: UIViewController {
         var j: Int = 0
         //flatten accel in z to a 1D array
         for row in arr2D {
-            accel1D[j] = row[1]
+            accel1D[j] = row[3] //1 is x axis, 2 is y axis, 3 is z axis
             j += 1
         }
         return accel1D
@@ -313,7 +321,6 @@ class ViewController: UIViewController {
     //      and train matrices have been created
     
     func trainNN(nnet: NeuralNet, structure: NeuralNet.Structure, wTrainMatrix: [[Float]], wTestMatrix: [[Float]], sTrainMatrix: [[Float]], sTestMatrix: [[Float]]){
-        currentAppStatus.text = "Training NeuralNet"
         
         //Create the output train and test answers
         let sTrainAns: [[Float]] = Array(repeating: [1,0], count: bootTrainDataNum)
@@ -337,8 +344,8 @@ class ViewController: UIViewController {
                 validationInputs: allTestData,
                 validationLabels: allTestAns,
                 structure: structure)
-            try nnet.train(nnDataSet, errorThreshold: 0.01)
-            print(nnet.allWeights())
+            try nnet.train(nnDataSet, errorThreshold: 0.004)
+            //print(nnet.allWeights())
             currentAppStatus.text = "Training Complete"
         } catch {print(error)}
         
