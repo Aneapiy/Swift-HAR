@@ -69,6 +69,12 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func trainNNBPressed(_ sender: Any) {
+    }
+    
+    @IBAction func guessActBPressed(_ sender: Any) {
+    }
+    
     // MARK: Main constants and vars
     let updateInterval = 0.01
     let dataLogTime = 10.0 //seconds
@@ -258,7 +264,7 @@ class ViewController: UIViewController {
         var j: Int = 0
         //flatten accel in z to a 1D array
         for row in arr2D {
-            accel1D[j] = row[0]
+            accel1D[j] = row[3]
             j += 1
         }
         return accel1D
@@ -318,13 +324,15 @@ class ViewController: UIViewController {
     
     func fileTagger() -> String {
         let date = Date()
-        let dateString = date.description
         let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from:date)
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
         let seconds = calendar.component(.second, from: date)
-        let dateTag = dateString.substring(to: dateString.index(dateString.startIndex, offsetBy: 10)).replacingOccurrences(of: "-", with: "")
-        return "\(dateTag)-\(hour)\(minutes)\(seconds)"
+        
+        return "\(year)\(month)\(day)-\(hour)\(minutes)\(seconds)"
     }
     
     // TODO: Write function for clearing doc directory

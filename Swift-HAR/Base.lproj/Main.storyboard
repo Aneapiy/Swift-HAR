@@ -142,6 +142,24 @@
                                     <action selector="recSaveWalkBPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qwE-Rr-i3Y"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="am1-am-4NQ">
+                                <rect key="frame" x="18" y="515" width="119" height="66"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Train NeuralNet"/>
+                                <connections>
+                                    <action selector="trainNNBPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fdr-Tn-yuk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="YcW-zO-cLk">
+                                <rect key="frame" x="213" y="515" width="119" height="66"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Guess Action"/>
+                                <connections>
+                                    <action selector="guessActBPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="20I-xt-qyY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.9137254901960784" green="1" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
