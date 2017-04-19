@@ -70,6 +70,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func trainNNBPressed(_ sender: Any) {
+        self.trainNN(nnet: nn, structure: structure, wTrainMatrix: walkTrainMatrix, wTestMatrix: walkTestMatrix, sTrainMatrix: standTrainMatrix, sTestMatrix: standTestMatrix)
     }
     
     @IBAction func guessActBPressed(_ sender: Any) {
@@ -98,6 +99,11 @@ class ViewController: UIViewController {
     
     //Number of possible actions the app will recognize
     var numOfActions = 2
+    
+    //Variables for the NeuralNet
+    var structure: NeuralNet.Structure!
+    var config: NeuralNet.Configuration!
+    var nn: NeuralNet!
     
     //Create an FFNN instance
     //let network = FFNN(inputs: 100, hidden: 64, outputs: 2, learningRate: 0.7, momentum: 0.4, weights: nil, activationFunction: .Sigmoid, errorFunction: .crossEntropy(average: false))
@@ -137,9 +143,9 @@ class ViewController: UIViewController {
         
         //Initialize an untrained neural network
         do {
-            let structure = try NeuralNet.Structure(inputs: 100, hidden: 64, outputs: 2)
-            let config = try NeuralNet.Configuration(hiddenActivation: .rectifiedLinear, outputActivation: .sigmoid, cost: .meanSquared, learningRate: 0.4, momentum: 0.2)
-            let nn = try NeuralNet(structure: structure, config: config)
+            structure = try NeuralNet.Structure(inputs: 100, hidden: 64, outputs: 2)
+            config = try NeuralNet.Configuration(hiddenActivation: .rectifiedLinear, outputActivation: .sigmoid, cost: .meanSquared, learningRate: 0.4, momentum: 0.2)
+            nn = try NeuralNet(structure: structure, config: config)
         }
         catch {
             print(error)
@@ -214,7 +220,7 @@ class ViewController: UIViewController {
         if i == rowNum{
             self.timer.invalidate()
             print("Finished logging data")
-            print(dataMatrix) //for testing only
+            //print(dataMatrix) //for testing only
             currentAppStatus.text = "Data Logging Complete"
             i = 0
             dataInd = 0.0
@@ -242,7 +248,7 @@ class ViewController: UIViewController {
         
     }
     
-    // MARK: Data analysis
+    // MARK: Data bootstrapper
     //      Create the test and training sets
     
     func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int, rowNums: Int) -> [[Float]]{
@@ -268,6 +274,41 @@ class ViewController: UIViewController {
             j += 1
         }
         return accel1D
+    }
+    // MARK: NeuralNetwork Training
+    //      Can only be called after the walking and standing test
+    //      and train matrices have been created
+    
+    func trainNN(nnet: NeuralNet, structure: NeuralNet.Structure, wTrainMatrix: [[Float]], wTestMatrix: [[Float]], sTrainMatrix: [[Float]], sTestMatrix: [[Float]]){
+        currentAppStatus.text = "Training NeuralNet"
+        
+        //Create the output train and test answers
+        let sTrainAns: [[Float]] = Array(repeating: [1,-1], count: bootTrainDataNum)
+        let sTestAns: [[Float]] = Array(repeating: [1,-1], count: bootTestDataNum)
+        let wTrainAns: [[Float]] = Array(repeating: [-1,1], count: bootTrainDataNum)
+        let wTestAns: [[Float]] = Array(repeating: [-1,1], count: bootTestDataNum)
+        
+        //Answer and data matrices have to be in the same order
+        
+        let allTrainAns = sTrainAns + wTrainAns
+        let allTestAns = sTestAns + wTestAns
+        
+        let allTrainData = sTrainMatrix + wTrainMatrix
+        let allTestData = sTestMatrix + wTestMatrix
+        
+        // Create the neural net dataset object
+        do {
+            let nnDataSet = try NeuralNet.Dataset(
+                trainInputs: allTrainData,
+                trainLabels: allTrainAns,
+                validationInputs: allTestData,
+                validationLabels: allTestAns,
+                structure: structure)
+            try nnet.train(nnDataSet, errorThreshold: 0.6)
+            print(nnet.allWeights())
+            currentAppStatus.text = "Training Complete"
+        } catch {print(error)}
+        
     }
     
     // MARK: Data exporting

@@ -400,6 +400,7 @@ public extension NeuralNet {
             }
             // Divide error by number of sets to find average error across full validation set
             error /= Float(data.validationInputs.count)
+            print(error)
             
             // Escape training loop if the network has met the error threshold
             if error < errorThreshold {
