@@ -1,23 +1,32 @@
 # Swift-HAR
 
-Human activity recognition on iPhones using Swift.
-Feed-Forward Neural Network from Swift-AI by Collin Hundley.
-FFNN Swift-AI files are from the version present in SwiftOCR project by Garnele007.
+Human activity recognition on iPhones using Swift, CoreMotion, and a
+Feed-Forward Neural Network from Swift-AI.
+
+## Progress
+- [x] UI to display results and gather user input.
+- [x] Data logger to record accelerometer data from an iPhone 6s.
+- [x] Data exporter to save data in CSV format.
+- [x] Bootstrapper to create testing and training data for the NeuralNet.
+- [x] Set up and configure the NeuralNet object for activity classification.
+- [x] Hook up the NeuralNet to classify untagged user activity.
+- [x] Midnight dance party cause it works!
+- [ ] Rewrite the spaghetti code in the ViewController into classes.
+- [ ] Add support for additional activities (running, sit ups, weight lifting, etc.)
 
 ## Notes
 
-### Code outline:
-Summary: Look at the accelerometer and gyro data to predict whether a user is sitting, walking, or running.
-1. Read accelerometer and gyro data for 1 activity for 30 seconds.
-2. Write the recorded data from memory to a file along with a tag.
-4. Create multiple data files by using a sliding window to sample the 30 second data.
-2. Split the data into a training and a testing set. 
-3. Train the classifier (maybe SVM or FFN).
-4. Test the classifier with a subset of test data.
+### Current Code outline:
+Summary: Use accelerometer data to predict whether a user is standing or walking.
+1. Read accelerometer data for 1 activity for 10 seconds.
+2. Tag the data as standing or walking.
+3. Repeat steps 1 and 2 for the second activity.
+4. Bootstrap the recorded data using a 1 second window to create training and testing files for the NeuralNet.
+5. Train the NeuralNet based on the training and testing file.
+6. Now the NeuralNet is ready to classify user activities.
 
 ### Machine learning APIs in Swift for iOS
-1. Swift-AI
-2. Swift-Brain
+1. [NeuralNet module from Swift-AI by Collin Hundley.](https://github.com/Swift-AI/NeuralNet)
 
 ### References:
 1. http://systemg.research.ibm.com/ma-sensoranalytics.html
