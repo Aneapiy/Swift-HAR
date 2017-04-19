@@ -74,6 +74,22 @@ class ViewController: UIViewController {
     }
     
     @IBAction func guessActBPressed(_ sender: Any) {
+        actionType = "Guess"
+        self.startLoggingData()
+        delay(14){
+            self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
+            self.guessMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
+            
+            //Take 1 sample from the guessMatrix
+            
+            let guessSample = self.guessMatrix[2]
+            do{
+                let actionPredict = try self.nn.infer(guessSample)
+                print(actionPredict)
+                self.currentAppStatus.text = String(describing: actionPredict)
+            } catch {print(error)}
+        }
+
     }
     
     // MARK: Main constants and vars
@@ -120,6 +136,7 @@ class ViewController: UIViewController {
     var walkTestMatrix = [[Float]]()
     var trainAnswers = [[Float]]()
     var testAnswers = [[Float]]()
+    var guessMatrix = [[Float]]()
     
     // MARK: init
     
@@ -159,6 +176,7 @@ class ViewController: UIViewController {
         walkTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTestDataNum)
         trainAnswers = Array(repeating: Array(repeating: 0.0, count: numOfActions), count: bootTrainDataNum)
         testAnswers = Array(repeating: Array(repeating: 0.0, count: numOfActions), count: bootTestDataNum)
+        guessMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTestDataNum)
         
         if manager.isGyroAvailable && manager.isAccelerometerAvailable && manager.isDeviceMotionAvailable {
             //Set sensor data updates to the updateInterval
@@ -252,12 +270,27 @@ class ViewController: UIViewController {
     //      Create the test and training sets
     
     func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int, rowNums: Int) -> [[Float]]{
-        var accelZOnly = get1DArray(arr2D: arr2D, rowNums: rowNums)
+        let accel1DOnly = get1DArray(arr2D: arr2D, rowNums: rowNums)
+        var accel1Min = accel1DOnly.min()!
+        var accel1Max = accel1DOnly.max()!
+        var halfRange:Float = 0
+        if accel1Max < Float(0){
+            accel1Max *= (-1)
+        }
+        if accel1Min < Float(0){
+            accel1Min *= (-1)
+        }
+        if accel1Max >= accel1Min{
+            halfRange = (accel1Max - accel1Min)/2
+        } else {
+            halfRange = (accel1Min - accel1Max)/2
+        }
+        var processedArr = accel1DOnly.map{$0 + halfRange}
         var returnArray: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize), count: setsNum)
         var pointer1 = startPt
         var pointer2 = pointer1 + windowSize
         for k in 0..<setsNum {
-            returnArray[k]=Array(accelZOnly[pointer1..<pointer2])
+            returnArray[k]=Array(processedArr[pointer1..<pointer2])
             pointer1 += stride
             pointer2 = pointer1 + windowSize
         }
@@ -270,7 +303,7 @@ class ViewController: UIViewController {
         var j: Int = 0
         //flatten accel in z to a 1D array
         for row in arr2D {
-            accel1D[j] = row[3]
+            accel1D[j] = row[1]
             j += 1
         }
         return accel1D
@@ -283,10 +316,10 @@ class ViewController: UIViewController {
         currentAppStatus.text = "Training NeuralNet"
         
         //Create the output train and test answers
-        let sTrainAns: [[Float]] = Array(repeating: [1,-1], count: bootTrainDataNum)
-        let sTestAns: [[Float]] = Array(repeating: [1,-1], count: bootTestDataNum)
-        let wTrainAns: [[Float]] = Array(repeating: [-1,1], count: bootTrainDataNum)
-        let wTestAns: [[Float]] = Array(repeating: [-1,1], count: bootTestDataNum)
+        let sTrainAns: [[Float]] = Array(repeating: [1,0], count: bootTrainDataNum)
+        let sTestAns: [[Float]] = Array(repeating: [1,0], count: bootTestDataNum)
+        let wTrainAns: [[Float]] = Array(repeating: [0,1], count: bootTrainDataNum)
+        let wTestAns: [[Float]] = Array(repeating: [0,1], count: bootTestDataNum)
         
         //Answer and data matrices have to be in the same order
         
@@ -304,12 +337,15 @@ class ViewController: UIViewController {
                 validationInputs: allTestData,
                 validationLabels: allTestAns,
                 structure: structure)
-            try nnet.train(nnDataSet, errorThreshold: 0.6)
+            try nnet.train(nnDataSet, errorThreshold: 0.01)
             print(nnet.allWeights())
             currentAppStatus.text = "Training Complete"
         } catch {print(error)}
         
     }
+    
+    // MARK: NeuralNetwork Inference
+    //      This is the action "guessing" portion.
     
     // MARK: Data exporting
     func exportToText(currMatrix: [[Float]], action: String){
