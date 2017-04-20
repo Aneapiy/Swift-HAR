@@ -87,15 +87,18 @@ class ViewController: UIViewController {
             do{
                 let inference = try self.nn.infer(guessSample)
                 print(inference)
+                let rounded0 = String(format: "%.3f", inference[0])
+                let rounded1 = String(format: "%.3f", inference[1])
+                let roundedInfer = "[\(rounded0), \(rounded1)]"
                 // Stand = [1, 0]
                 // Walk = [0, 1]
                 var action = ""
                 if inference[0] > inference [1]{
-                    action = "NeuralNet predicts: Standing"
+                    action = "NeuralNet predicts: Standing\n\(roundedInfer)"
                 } else if inference [0] < inference [1] {
-                    action = "NeuralNet predicts: Walking"
+                    action = "NeuralNet predicts: Walking\n\(roundedInfer)"
                 } else {
-                    action = "NeuralNet's confused"
+                    action = "NeuralNet's confused\n\(roundedInfer)"
                 }
                 self.currentAppStatus.text = action
             } catch {print(error)}
