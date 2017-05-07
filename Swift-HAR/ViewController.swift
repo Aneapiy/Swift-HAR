@@ -120,7 +120,7 @@ class ViewController: UIViewController {
     var ay:Float = 0.0
     var az:Float = 0.0
     var actionType = "unDefData"
-    let systemSoundID: SystemSoundID = 1016
+    let systemSoundID: SystemSoundID = 1052
     
     //Vars below must satisfy this equation
     //ptsPerData = rowNum/(bootTrainDataNum + bootTestDataNum + bootStepSize)
