@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreMotion
+import AVFoundation
 
 let manager = CMMotionManager()
 
@@ -26,6 +27,7 @@ class ViewController: UIViewController {
     // MARK: Buttons
     @IBAction func recDataButtonPressed(_ sender: Any) {
         print("Record Button Clicked!")
+        AudioServicesPlaySystemSound(systemSoundID)
         //Can't use CMSensorRecorder cause not compatible with iPhone 6s.
         self.startLoggingData()
         
@@ -118,6 +120,7 @@ class ViewController: UIViewController {
     var ay:Float = 0.0
     var az:Float = 0.0
     var actionType = "unDefData"
+    let systemSoundID: SystemSoundID = 1016
     
     //Vars below must satisfy this equation
     //ptsPerData = rowNum/(bootTrainDataNum + bootTestDataNum + bootStepSize)
