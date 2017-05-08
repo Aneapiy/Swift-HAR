@@ -420,10 +420,10 @@ class ViewController: UIViewController {
         for action in actLog {
             let ind = actLog.index(of: action)!
             tmpAns[ind] = 1.0
-            for i in 0..<bootTrainDataNum {
+            for _ in 0..<bootTrainDataNum {
                 tmpTrainAns.append(tmpAns)
             }
-            for i in 0..<bootTestDataNum {
+            for _ in 0..<bootTestDataNum {
                 tmpTestAns.append(tmpAns)
             }
             
