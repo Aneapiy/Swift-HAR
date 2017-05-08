@@ -23,13 +23,20 @@ class ViewController: UIViewController {
     @IBOutlet weak var gyroYText: UITextField!
     @IBOutlet weak var gyroZText: UITextField!
     @IBOutlet weak var currentAppStatus: UITextView!
+    @IBOutlet weak var actionText: UITextField!
     
     // MARK: Buttons
     @IBAction func recDataButtonPressed(_ sender: Any) {
         print("Record Button Clicked!")
-        AudioServicesPlaySystemSound(systemSoundID)
-        //Can't use CMSensorRecorder cause not compatible with iPhone 6s.
-        self.startLoggingData()
+        actionType = actionText.text!
+        delay(2){
+            AudioServicesPlaySystemSound(self.systemSoundID)
+            self.startLoggingData()
+        }
+        
+        delay(15){
+            self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
+        }
         
     }
     
@@ -37,7 +44,7 @@ class ViewController: UIViewController {
         self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
     }
 
-    
+    /* Deleted live accel and gyro update buttons
     @IBAction func startLiveRecBPressed(_ sender: Any) {
         print("Start Live Update Button Clicked!")
         self.startLiveUpdates()
@@ -46,14 +53,15 @@ class ViewController: UIViewController {
         print("Stop Live Update Button Clicked!")
         self.stopUpdates()
     }
+    */
     
     @IBAction func recSavStandBPressed(_ sender: Any) {
         actionType = "standing"
         self.startLoggingData()
         delay(14){
             self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
-            self.standTrainMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTrainDataNum, startPt: 0, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
-            self.standTestMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
+            self.standTrainMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTrainDataNum, startPt: 0, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum, xyz: 1)
+            self.standTestMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum, xyz: 1)
             self.exportToText(currMatrix: self.standTrainMatrix, action: "standing-train")
             self.exportToText(currMatrix: self.standTestMatrix, action: "standing-test")
         }
@@ -64,8 +72,8 @@ class ViewController: UIViewController {
         self.startLoggingData()
         delay(14){
             self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
-            self.walkTrainMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTrainDataNum, startPt: 0, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
-            self.walkTestMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
+            self.walkTrainMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTrainDataNum, startPt: 0, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum, xyz: 1)
+            self.walkTestMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum, xyz: 1)
             self.exportToText(currMatrix: self.walkTrainMatrix, action: "walking-train")
             self.exportToText(currMatrix: self.walkTestMatrix, action: "walking-test")
         }
@@ -73,6 +81,7 @@ class ViewController: UIViewController {
     
     @IBAction func trainNNBPressed(_ sender: Any) {
         currentAppStatus.text = "Training NeuralNet"
+        
         self.trainNN(nnet: nn, structure: structure, wTrainMatrix: walkTrainMatrix, wTestMatrix: walkTestMatrix, sTrainMatrix: standTrainMatrix, sTestMatrix: standTestMatrix)
     }
     
@@ -81,7 +90,7 @@ class ViewController: UIViewController {
         self.startLoggingData()
         delay(14){
             self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
-            self.guessMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
+            self.guessMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum, xyz: 1)
             
             //Take 1 sample from the guessMatrix
             
@@ -111,6 +120,7 @@ class ViewController: UIViewController {
     // MARK: Main constants and vars
     let updateInterval = 0.01
     let dataLogTime = 10.0 //seconds
+    let systemSoundID: SystemSoundID = 1052
     var rowNum:Int = 0
     var timer = Timer()
     var counter = 0
@@ -120,7 +130,8 @@ class ViewController: UIViewController {
     var ay:Float = 0.0
     var az:Float = 0.0
     var actionType = "unDefData"
-    let systemSoundID: SystemSoundID = 1052
+    var nnInputNum: Int = 0
+    var hiddenLayerNum: Int = 0
     
     //Vars below must satisfy this equation
     //ptsPerData = rowNum/(bootTrainDataNum + bootTestDataNum + bootStepSize)
@@ -163,6 +174,7 @@ class ViewController: UIViewController {
         accelXText.delegate = self
         accelYText.delegate = self
         accelZText.delegate = self
+        actionText.delegate = self
         definesPresentationContext = true
         
         //default values on init
@@ -174,10 +186,11 @@ class ViewController: UIViewController {
         gyroZText.text = "Gyro-Z: 0.0"
         rowNum = Int(dataLogTime/updateInterval)
         testStartPt = bootTrainDataNum * bootStepSize
-        
-        //Initialize an untrained neural network
+        nnInputNum = ptsPerData * 3 //100 pts per data * 3 axis
+        hiddenLayerNum = Int(round(Double(nnInputNum * (2/3))))
+        //Initialize a preliminary untrained neural network for binary classification
         do {
-            structure = try NeuralNet.Structure(inputs: 100, hidden: 64, outputs: 2)
+            structure = try NeuralNet.Structure(inputs: nnInputNum, hidden: hiddenLayerNum, outputs: 2)
             config = try NeuralNet.Configuration(hiddenActivation: .rectifiedLinear, outputActivation: .sigmoid, cost: .meanSquared, learningRate: 0.4, momentum: 0.2)
             nn = try NeuralNet(structure: structure, config: config)
         }
@@ -187,13 +200,13 @@ class ViewController: UIViewController {
         
         //Preallocate matrices for storing data
         dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: rowNum)
-        standTrainMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
-        walkTrainMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTrainDataNum)
-        standTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTestDataNum)
-        walkTestMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTestDataNum)
+        standTrainMatrix = Array(repeating: Array(repeating: 0.0, count: nnInputNum), count: bootTrainDataNum)
+        walkTrainMatrix = Array(repeating: Array(repeating: 0.0, count: nnInputNum), count: bootTrainDataNum)
+        standTestMatrix = Array(repeating: Array(repeating: 0.0, count: nnInputNum), count: bootTestDataNum)
+        walkTestMatrix = Array(repeating: Array(repeating: 0.0, count: nnInputNum), count: bootTestDataNum)
         trainAnswers = Array(repeating: Array(repeating: 0.0, count: numOfActions), count: bootTrainDataNum)
         testAnswers = Array(repeating: Array(repeating: 0.0, count: numOfActions), count: bootTestDataNum)
-        guessMatrix = Array(repeating: Array(repeating: 0.0, count: ptsPerData), count: bootTestDataNum)
+        guessMatrix = Array(repeating: Array(repeating: 0.0, count: nnInputNum), count: bootTestDataNum)
         
         if manager.isGyroAvailable && manager.isAccelerometerAvailable && manager.isDeviceMotionAvailable {
             //Set sensor data updates to the updateInterval
@@ -286,8 +299,9 @@ class ViewController: UIViewController {
     // MARK: Data bootstrapper
     //      Create the test and training sets
     
-    func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int, rowNums: Int) -> [[Float]]{
-        let accel1DOnly = get1DArray(arr2D: arr2D, rowNums: rowNums)
+    func bootStrapDataM(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int, rowNums: Int, xyz: Int) -> [[Float]]{
+        //xyz = 1 -> x data, xyz = 2 -> y data, xyz = 3 -> z data
+        let accel1DOnly = get1DArray(arr2D: arr2D, rowNums: rowNums, xyz: xyz)
         let accel1Min = accel1DOnly.min()!
         let accel1Max = accel1DOnly.max()!
         var halfRange:Float = 0
@@ -312,16 +326,46 @@ class ViewController: UIViewController {
         return returnArray
     }
     
-    func get1DArray(arr2D: [[Float]], rowNums: Int) -> [Float]{
+    func get1DArray(arr2D: [[Float]], rowNums: Int, xyz: Int) -> [Float]{
         var accel1D: [Float] = Array(repeating: 0.0, count: rowNums)
         var j: Int = 0
         //flatten accel in z to a 1D array
         for row in arr2D {
-            accel1D[j] = row[3] //1 is x axis, 2 is y axis, 3 is z axis
+            accel1D[j] = row[xyz] //1 is x axis, 2 is y axis, 3 is z axis
             j += 1
         }
         return accel1D
     }
+    // MARK: NeuralNetwork Config
+    //      Initialize a specific untrained NeuralNet
+    //      that can handle more than 2 classifications.
+    func nnInit(inputNums: Int, hiddenNums: Int, outputNums: Int) {
+        do {
+            structure = try NeuralNet.Structure(inputs: inputNums, hidden: hiddenNums, outputs: outputNums)
+            config = try NeuralNet.Configuration(hiddenActivation: .rectifiedLinear, outputActivation: .sigmoid, cost: .meanSquared, learningRate: 0.4, momentum: 0.2)
+            nn = try NeuralNet(structure: structure, config: config)
+        }
+        catch {
+            print(error)
+        }
+    }
+    
+    //Get number of outputs based on number of different actions
+    func getOuputNums(outputs: [String]) -> Int {
+        return 2 //
+    }
+    
+    //Checks the log of actions and appends the log if it's a new action
+    func checkOutput(currentActions: [String], newAction: String) -> [String] {
+        var currentActions = currentActions
+        if currentActions.contains(newAction) {
+            //do nothing, action already there
+        } else {
+            currentActions.append(newAction)
+        }
+        return currentActions
+    }
+    
     // MARK: NeuralNetwork Training
     //      Can only be called after the walking and standing test
     //      and train matrices have been created
