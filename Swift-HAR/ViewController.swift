@@ -36,6 +36,14 @@ class ViewController: UIViewController {
         
         delay(15){
             self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
+            self.actionsLog = self.checkOutput(currentActions: self.actionsLog, newAction: self.actionType)
+            let ind = self.actionsLog.index(of: self.actionType)
+            if ind! == 0 {
+                //This is the first misc action
+                self.miscActMatrix.append(self.dataMatrix)
+            } else {
+                self.miscActMatrix[ind!] = self.dataMatrix
+            }
         }
         
     }
@@ -139,7 +147,7 @@ class ViewController: UIViewController {
     var bootTestDataNum = 20
     var bootStepSize = 10
     var ptsPerData = 100
-    var testStartPt = 0
+    var testStartPt = 0 //placeholder. Calculated once view init.
     
     //Number of possible actions the app will recognize
     var numOfActions = 2
@@ -165,6 +173,10 @@ class ViewController: UIViewController {
     var trainAnswers = [[Float]]()
     var testAnswers = [[Float]]()
     var guessMatrix = [[Float]]()
+    var miscActMatrix = [[[Float]]]()
+    var miscActTrain = [[Float]]()
+    var miscActTest = [[Float]]()
+    var actionsLog = [String]()
     
     // MARK: init
     
@@ -339,8 +351,9 @@ class ViewController: UIViewController {
     // MARK: NeuralNetwork Config
     //      Initialize a specific untrained NeuralNet
     //      that can handle more than 2 classifications.
-    func nnInit(inputNums: Int, hiddenNums: Int, outputNums: Int) {
+    func nnInit(inputNums: Int, hiddenNums: Int, actLog: [String]) {
         do {
+            let outputNums = actLog.count
             structure = try NeuralNet.Structure(inputs: inputNums, hidden: hiddenNums, outputs: outputNums)
             config = try NeuralNet.Configuration(hiddenActivation: .rectifiedLinear, outputActivation: .sigmoid, cost: .meanSquared, learningRate: 0.4, momentum: 0.2)
             nn = try NeuralNet(structure: structure, config: config)
@@ -348,11 +361,6 @@ class ViewController: UIViewController {
         catch {
             print(error)
         }
-    }
-    
-    //Get number of outputs based on number of different actions
-    func getOuputNums(outputs: [String]) -> Int {
-        return 2 //
     }
     
     //Checks the log of actions and appends the log if it's a new action
@@ -398,6 +406,30 @@ class ViewController: UIViewController {
             //print(nnet.allWeights())
             currentAppStatus.text = "Training Complete"
         } catch {print(error)}
+        
+    }
+    
+    //  train Neural Network for the misc action dataset
+    func trainNNMisc(nnet: NeuralNet, structure: NeuralNet.Structure, mTrain: [[Float]], mTest: [[Float]], actLog: [String]){
+        
+        //Create the output train and test answers
+        var tmpTrainAns = [[Float]]()
+        var tmpTestAns = [[Float]]()
+        let actNum = actLog.count
+        var tmpAns: [Float] = Array(repeating: 0.0, count: actNum)
+        for action in actLog {
+            let ind = actLog.index(of: action)!
+            tmpAns[ind] = 1.0
+            for i in 0..<bootTrainDataNum {
+                tmpTrainAns.append(tmpAns)
+            }
+            for i in 0..<bootTestDataNum {
+                tmpTestAns.append(tmpAns)
+            }
+            
+        }
+        
+        
         
     }
     
