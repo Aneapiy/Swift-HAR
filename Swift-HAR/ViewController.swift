@@ -90,7 +90,15 @@ class ViewController: UIViewController {
     @IBAction func trainNNBPressed(_ sender: Any) {
         currentAppStatus.text = "Training NeuralNet"
         
+        self.nnInit(inputNums: self.nnInputNum, hiddenNums: self.hiddenLayerNum, actLog: self.actionsLog)
+        
+        // Comment this out if training for only standing and walking
+        self.trainNNMisc(nnet: nn, structure: structure, dataSet: miscActMatrix, actLog: actionsLog, errorThreshold: errorThreshold, nnInputNum: self.nnInputNum, bootTrainDataNum: self.bootTrainDataNum, bootTestDataNum: self.bootTestDataNum, testStartPt: self.testStartPt, bootStepSize: self.bootStepSize, ptsPerData: self.ptsPerData, rowNum: self.rowNum)
+        
+        //Uncomment this if only training for standing and walking
+        /*
         self.trainNN(nnet: nn, structure: structure, wTrainMatrix: walkTrainMatrix, wTestMatrix: walkTestMatrix, sTrainMatrix: standTrainMatrix, sTestMatrix: standTestMatrix)
+        */
     }
     
     @IBAction func guessActBPressed(_ sender: Any) {
@@ -349,6 +357,28 @@ class ViewController: UIViewController {
         }
         return accel1D
     }
+    
+    // Three axis wrapper for the data bootstrapper
+    //      Joins the bootstrapped data from each array into log segments
+    //      The segements are x, y, z in that order.
+    
+    func triAxisBootWrapper(arr2D: [[Float]], setsNum: Int, startPt: Int, stride: Int, windowSize: Int, rowNums: Int) -> [[Float]] {
+        var xArr: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize), count: setsNum)
+        var yArr: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize), count: setsNum)
+        var zArr: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize), count: setsNum)
+        var returnArray: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize * 3), count: setsNum)
+        
+        xArr = self.bootStrapDataM(arr2D: arr2D, setsNum: setsNum, startPt: startPt, stride: stride, windowSize: windowSize, rowNums: rowNums, xyz: 1)
+        yArr = self.bootStrapDataM(arr2D: arr2D, setsNum: setsNum, startPt: startPt, stride: stride, windowSize: windowSize, rowNums: rowNums, xyz: 2)
+        zArr = self.bootStrapDataM(arr2D: arr2D, setsNum: setsNum, startPt: startPt, stride: stride, windowSize: windowSize, rowNums: rowNums, xyz: 3)
+        
+        for i in 0..<setsNum {
+            returnArray[i] = xArr[i] + yArr[i] + zArr[i]
+        }
+        
+        return returnArray
+    }
+    
     // MARK: NeuralNetwork Config
     //      Initialize a specific untrained NeuralNet
     //      that can handle more than 2 classifications.
@@ -411,7 +441,7 @@ class ViewController: UIViewController {
     }
     
     //  train Neural Network for the misc action dataset
-    func trainNNMisc(nnet: NeuralNet, structure: NeuralNet.Structure, mTrain: [[Float]], mTest: [[Float]], actLog: [String], errorThreshold: Float){
+    func trainNNMisc(nnet: NeuralNet, structure: NeuralNet.Structure, dataSet: [[[Float]]], actLog: [String], errorThreshold: Float, nnInputNum: Int, bootTrainDataNum: Int, bootTestDataNum: Int, testStartPt: Int, bootStepSize: Int, ptsPerData: Int, rowNum: Int){
         
         //Create the output train and test answers
         var tmpTrainAns = [[Float]]()
@@ -428,6 +458,15 @@ class ViewController: UIViewController {
                 tmpTestAns.append(tmpAns)
             }
             
+        }
+        
+        //Create train and test datasets
+        var mTrain = [[Float]]()
+        var mTest = [[Float]]()
+        for action in actLog {
+            let ind = actLog.index(of: action)!
+            mTrain += (self.triAxisBootWrapper(arr2D: dataSet[ind], setsNum: bootTrainDataNum, startPt: 0, stride: bootStepSize, windowSize: ptsPerData, rowNums: rowNum))
+            mTest += (self.triAxisBootWrapper(arr2D: dataSet[ind], setsNum: bootTestDataNum, startPt: testStartPt, stride: bootStepSize, windowSize: ptsPerData, rowNums: rowNum))
         }
         
         do {
