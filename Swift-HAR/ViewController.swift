@@ -129,6 +129,7 @@ class ViewController: UIViewController {
     let updateInterval = 0.01
     let dataLogTime = 10.0 //seconds
     let systemSoundID: SystemSoundID = 1052
+    let errorThreshold: Float = 0.004
     var rowNum:Int = 0
     var timer = Timer()
     var counter = 0
@@ -410,7 +411,7 @@ class ViewController: UIViewController {
     }
     
     //  train Neural Network for the misc action dataset
-    func trainNNMisc(nnet: NeuralNet, structure: NeuralNet.Structure, mTrain: [[Float]], mTest: [[Float]], actLog: [String]){
+    func trainNNMisc(nnet: NeuralNet, structure: NeuralNet.Structure, mTrain: [[Float]], mTest: [[Float]], actLog: [String], errorThreshold: Float){
         
         //Create the output train and test answers
         var tmpTrainAns = [[Float]]()
@@ -429,7 +430,17 @@ class ViewController: UIViewController {
             
         }
         
-        
+        do {
+            let nnDataSet = try NeuralNet.Dataset(
+                trainInputs: mTrain,
+                trainLabels: tmpTrainAns,
+                validationInputs: mTest,
+                validationLabels: tmpTestAns,
+                structure: structure)
+            try nnet.train(nnDataSet, errorThreshold: errorThreshold)
+            //print(nnet.allWeights())
+            currentAppStatus.text = "Training Complete"
+        } catch {print(error)}
         
     }
     
