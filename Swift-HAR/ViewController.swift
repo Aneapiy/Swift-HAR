@@ -35,6 +35,7 @@ class ViewController: UIViewController {
         }
         
         delay(15){
+            AudioServicesPlaySystemSound(self.systemSoundID)
             self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
             self.actionsLog = self.checkOutput(currentActions: self.actionsLog, newAction: self.actionType)
             let ind = self.actionsLog.index(of: self.actionType)
