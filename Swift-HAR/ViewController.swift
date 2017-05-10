@@ -39,7 +39,8 @@ class ViewController: UIViewController {
             self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
             self.actionsLog = self.checkOutput(currentActions: self.actionsLog, newAction: self.actionType)
             let ind = self.actionsLog.index(of: self.actionType)
-            if ind! == 0 {
+            print(ind!)
+            if ind! == 0 || ind! == (self.actionsLog.count - 1) {
                 //This is the first misc action
                 self.miscActMatrix.append(self.dataMatrix)
             } else {
@@ -105,10 +106,17 @@ class ViewController: UIViewController {
     
     @IBAction func guessActBPressed(_ sender: Any) {
         actionType = "Guess"
-        self.startLoggingData()
-        delay(14){
+        delay(2){
+            AudioServicesPlaySystemSound(self.systemSoundID)
+            self.startLoggingData()
+        }
+        delay(15){
+            AudioServicesPlaySystemSound(self.systemSoundID)
             self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
-            self.guessMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum, xyz: 1)
+            
+            //self.guessMatrix = self.bootStrapDataM(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum, xyz: 1)
+            
+            self.guessMatrix = self.triAxisBootWrapper(arr2D: self.dataMatrix, setsNum: self.bootTestDataNum, startPt: self.testStartPt, stride: self.bootStepSize, windowSize: self.ptsPerData, rowNums: self.rowNum)
             
             //Take 1 sample from the guessMatrix
             
@@ -116,12 +124,23 @@ class ViewController: UIViewController {
             do{
                 let inference = try self.nn.infer(guessSample)
                 print(inference)
+                var roundedInfer = [String]()
+                for inf in inference {
+                    roundedInfer.append(String(format: "%.3f", inf))
+                }
+                /*
                 let rounded0 = String(format: "%.3f", inference[0])
                 let rounded1 = String(format: "%.3f", inference[1])
                 let roundedInfer = "[\(rounded0), \(rounded1)]"
+                */
                 // Stand = [1, 0]
                 // Walk = [0, 1]
                 var action = ""
+                let maxInference = inference.max()!
+                let predictedAction = self.actionsLog[inference.index(of: maxInference)!]
+                action = "NeuralNet predicts: \(predictedAction)\n\(roundedInfer)"
+                
+                /*
                 if inference[0] > inference [1]{
                     action = "NeuralNet predicts: Standing\n\(roundedInfer)"
                 } else if inference [0] < inference [1] {
@@ -129,6 +148,8 @@ class ViewController: UIViewController {
                 } else {
                     action = "NeuralNet's confused\n\(roundedInfer)"
                 }
+                */
+                
                 self.currentAppStatus.text = action
             } catch {print(error)}
         }
@@ -141,6 +162,7 @@ class ViewController: UIViewController {
         self.miscActTrain.removeAll()
         self.miscActTest.removeAll()
         self.actionsLog.removeAll()
+        self.currentAppStatus.text = "Memory cleared"
     }
     
     // MARK: Main constants and vars
@@ -218,7 +240,7 @@ class ViewController: UIViewController {
         rowNum = Int(dataLogTime/updateInterval)
         testStartPt = bootTrainDataNum * bootStepSize
         nnInputNum = ptsPerData * 3 //100 pts per data * 3 axis
-        hiddenLayerNum = Int(round(Double(nnInputNum * (2/3))))
+        hiddenLayerNum = Int(round(Double(nnInputNum) * (2.0/3.0)))
         //Initialize a preliminary untrained neural network for binary classification
         do {
             structure = try NeuralNet.Structure(inputs: nnInputNum, hidden: hiddenLayerNum, outputs: 2)
@@ -395,6 +417,9 @@ class ViewController: UIViewController {
     func nnInit(inputNums: Int, hiddenNums: Int, actLog: [String]) {
         do {
             let outputNums = actLog.count
+            print(inputNums)
+            print(hiddenNums)
+            print(outputNums)
             structure = try NeuralNet.Structure(inputs: inputNums, hidden: hiddenNums, outputs: outputNums)
             config = try NeuralNet.Configuration(hiddenActivation: .rectifiedLinear, outputActivation: .sigmoid, cost: .meanSquared, learningRate: 0.4, momentum: 0.2)
             nn = try NeuralNet(structure: structure, config: config)
