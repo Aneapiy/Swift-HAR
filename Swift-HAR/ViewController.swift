@@ -51,6 +51,7 @@ class ViewController: UIViewController {
     
     @IBAction func saveBPressed(_ sender: Any) {
         self.exportToText(currMatrix: self.dataMatrix, action: self.actionType)
+        
     }
 
     /* Deleted live accel and gyro update buttons
@@ -132,6 +133,14 @@ class ViewController: UIViewController {
             } catch {print(error)}
         }
 
+    }
+    
+    @IBAction func resetMem(_ sender: Any) {
+        self.dataMatrix = Array(repeating: Array(repeating:0.0, count: 4), count: rowNum)
+        self.miscActMatrix.removeAll()
+        self.miscActTrain.removeAll()
+        self.miscActTest.removeAll()
+        self.actionsLog.removeAll()
     }
     
     // MARK: Main constants and vars
