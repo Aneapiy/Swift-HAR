@@ -91,7 +91,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func trainNNBPressed(_ sender: Any) {
-        currentAppStatus.text = "Training NeuralNet"
+        
         
         self.nnInit(inputNums: self.nnInputNum, hiddenNums: self.hiddenLayerNum, actLog: self.actionsLog)
         
@@ -169,7 +169,7 @@ class ViewController: UIViewController {
     let updateInterval = 0.01
     let dataLogTime = 10.0 //seconds
     let systemSoundID: SystemSoundID = 1052
-    let errorThreshold: Float = 0.004
+    let errorThreshold: Float = 0.2
     var rowNum:Int = 0
     var timer = Timer()
     var counter = 0
@@ -478,6 +478,10 @@ class ViewController: UIViewController {
     //  train Neural Network for the misc action dataset
     func trainNNMisc(nnet: NeuralNet, structure: NeuralNet.Structure, dataSet: [[[Float]]], actLog: [String], errorThreshold: Float, nnInputNum: Int, bootTrainDataNum: Int, bootTestDataNum: Int, testStartPt: Int, bootStepSize: Int, ptsPerData: Int, rowNum: Int){
         
+        self.currentAppStatus.text = "Training NeuralNet"
+        
+        print(actLog)
+        
         //Create the output train and test answers
         var tmpTrainAns = [[Float]]()
         var tmpTestAns = [[Float]]()
@@ -485,6 +489,7 @@ class ViewController: UIViewController {
         var tmpAns: [Float] = Array(repeating: 0.0, count: actNum)
         for action in actLog {
             let ind = actLog.index(of: action)!
+            tmpAns = Array(repeating: 0.0, count: actNum)
             tmpAns[ind] = 1.0
             for _ in 0..<bootTrainDataNum {
                 tmpTrainAns.append(tmpAns)
@@ -513,7 +518,7 @@ class ViewController: UIViewController {
                 structure: structure)
             try nnet.train(nnDataSet, errorThreshold: errorThreshold)
             //print(nnet.allWeights())
-            currentAppStatus.text = "Training Complete"
+            self.currentAppStatus.text = "Training Complete"
         } catch {print(error)}
         
     }
