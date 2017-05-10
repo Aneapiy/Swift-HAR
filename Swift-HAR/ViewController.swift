@@ -357,6 +357,17 @@ class ViewController: UIViewController {
         let accel1DOnly = get1DArray(arr2D: arr2D, rowNums: rowNums, xyz: xyz)
         let accel1Min = accel1DOnly.min()!
         let accel1Max = accel1DOnly.max()!
+        
+        var shiftBy: Float = 0
+        if accel1Max >= Float(0) && accel1Min >= Float(0){
+            shiftBy = accel1Min * (-1)
+        } else if accel1Max >= Float(0) && accel1Min <= Float(0){
+            shiftBy = accel1Min * (-1)
+        } else {
+            shiftBy = accel1Max * (-1)
+        }
+        
+        /*
         var halfRange:Float = 0
         if accel1Max >= Float(0) && accel1Min >= Float(0){
             halfRange = (accel1Max - accel1Min)/2
@@ -365,8 +376,9 @@ class ViewController: UIViewController {
         } else {
             halfRange = ((accel1Min * -1) - (accel1Max * -1))/2 + (accel1Max * -1) //adding max again to make all data >= 0
         }
-        
-        var processedArr = accel1DOnly.map{$0 + halfRange}
+        */
+        //var processedArr = accel1DOnly.map{$0 + halfRange}
+        var processedArr = accel1DOnly.map{$0 + shiftBy}
         var returnArray: [[Float]] = Array(repeating: Array(repeating: 0.0, count: windowSize), count: setsNum)
         var pointer1 = startPt
         var pointer2 = pointer1 + windowSize
@@ -508,6 +520,9 @@ class ViewController: UIViewController {
             mTrain += (self.triAxisBootWrapper(arr2D: dataSet[ind], setsNum: bootTrainDataNum, startPt: 0, stride: bootStepSize, windowSize: ptsPerData, rowNums: rowNum))
             mTest += (self.triAxisBootWrapper(arr2D: dataSet[ind], setsNum: bootTestDataNum, startPt: testStartPt, stride: bootStepSize, windowSize: ptsPerData, rowNums: rowNum))
         }
+        
+        self.exportToText(currMatrix: mTrain, action: "Training-FullSet")
+        self.exportToText(currMatrix: mTest, action: "Testing-FullSet")
         
         do {
             let nnDataSet = try NeuralNet.Dataset(
