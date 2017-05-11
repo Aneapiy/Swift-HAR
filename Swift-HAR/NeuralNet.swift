@@ -373,7 +373,7 @@ public extension NeuralNet {
     /// - Throws: An error if invalid data is provided. Checks are performed in advance to avoid problems during the training cycle.
     /// - WARNING: `errorThreshold` should be considered carefully. A value too high will produce a poorly-performing network, while a value too low (i.e. too accurate) may be unachievable, resulting in an infinite training process.
     @discardableResult
-    public func train(_ data: Dataset, errorThreshold: Float) throws -> [Float] {
+    public func train(_ data: Dataset, errorThreshold: Float, maxEpochs: Int) throws -> [Float] {
         // Ensure valid error threshold
         guard errorThreshold > 0 else {
             throw Error.train("Training error threshold must be greater than zero.")
@@ -384,6 +384,7 @@ public extension NeuralNet {
         // -----------------------------
         
         // Train forever until the desired error threshold is met
+        var epochCounter = 0
         while true {
             // Complete one full training epoch
             for (index, input) in data.trainInputs.enumerated() {
@@ -405,6 +406,11 @@ public extension NeuralNet {
             // Escape training loop if the network has met the error threshold
             if error < errorThreshold {
                 break
+            }
+            if epochCounter >= maxEpochs {
+                break
+            } else {
+                epochCounter += 1
             }
         }
         

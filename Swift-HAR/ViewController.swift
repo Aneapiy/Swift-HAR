@@ -169,7 +169,7 @@ class ViewController: UIViewController {
     let updateInterval = 0.01
     let dataLogTime = 10.0 //seconds
     let systemSoundID: SystemSoundID = 1052
-    let errorThreshold: Float = 0.2
+    let errorThreshold: Float = 0.05
     var rowNum:Int = 0
     var timer = Timer()
     var counter = 0
@@ -480,7 +480,7 @@ class ViewController: UIViewController {
                 validationInputs: allTestData,
                 validationLabels: allTestAns,
                 structure: structure)
-            try nnet.train(nnDataSet, errorThreshold: 0.004)
+            try nnet.train(nnDataSet, errorThreshold: 0.004, maxEpochs: 30)
             //print(nnet.allWeights())
             currentAppStatus.text = "Training Complete"
         } catch {print(error)}
@@ -531,7 +531,7 @@ class ViewController: UIViewController {
                 validationInputs: mTest,
                 validationLabels: tmpTestAns,
                 structure: structure)
-            try nnet.train(nnDataSet, errorThreshold: errorThreshold)
+            try nnet.train(nnDataSet, errorThreshold: errorThreshold, maxEpochs: 30)
             //print(nnet.allWeights())
             self.currentAppStatus.text = "Training Complete"
         } catch {print(error)}
