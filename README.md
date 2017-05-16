@@ -3,6 +3,8 @@
 Human activity recognition on iPhones using Swift, CoreMotion, and a
 Feed-Forward Neural Network from Swift-AI.
 
+Columbia University EECS 6895 Advanced Big Data Analytics Final Project for nh2518
+
 ## Abstract
 Human activity recognition (HAR) is the use of sensors and algorithms to classify human action. Applications of HAR in healthcare involve remote monitoring of patient physical activity, detecting falls in elderly patients, and helping classify movement in patients with motion disorders. HAR can also be used in wearable electronics that track user exercise and activity. In this paper, I demonstrate an HAR application written in Swift 3.1 for the iPhone 6s running iOS 10.3.1. Data logs gathered from the CoreMotion API feeds into a Feed Forward Neural Network created using the Swift-AI framework. Both training and inference from the neural network is executed locally in an iPhone 6s. The neural network can recognize multiple repetitive and continuous activities by changing the number of output nodes to match the number of unique activities the user logs. The trained neural network successfully classifies the tested user activities of standing still, walking, or doing bicep curls.
 
@@ -30,7 +32,7 @@ After training, the NeuralNet is ready to classify user activities. The user can
 
 ## Notes
 
-### Machine learning APIs in Swift for iOS:
+### Machine learning API in Swift for iOS:
 Special thanks to Collin Hundley and the Swift AI team for providing code for the neural network used as a classifier for this project.
 1. [NeuralNet module from Swift-AI by Collin Hundley.](https://github.com/Swift-AI/NeuralNet)
 
