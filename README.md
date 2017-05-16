@@ -1,6 +1,6 @@
 # Swift-HAR
 
-Human activity recognition on iPhone 6s with Swift, CoreMotion, and a Feed-Forward Neural Network from Swift-AI.
+Human activity recognition on iPhone 6s with Swift, CoreMotion, and a Feed-Forward Neural Network classifier from Swift-AI.
 
 Columbia University EECS 6895 Advanced Big Data Analytics Final Project for nh2518
 
