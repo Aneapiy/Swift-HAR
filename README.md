@@ -2,6 +2,8 @@
 
 Human activity recognition on iPhone 6s with Swift, CoreMotion, and a Feed-Forward Neural Network classifier from Swift-AI.
 
+Check out [SwiftHAR_technicalReport.pdf](https://github.com/Aneapiy/Swift-HAR/blob/master/SwiftHAR_technicalReport.pdf) for a detailed explanation of this project.
+
 Columbia University EECS E6895 Advanced Big Data Analytics (Spring 2017) Final Project by nh2518
 
 ## Abstract
